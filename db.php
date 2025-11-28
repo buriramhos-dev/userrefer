@@ -54,7 +54,33 @@ try {
             break;
         } catch (PDOException $e) {
             $lastException = $e;
-            // try next host
+            // ถ้า error คือ Unknown database (1049) ให้ลองเชื่อมต่อโดยไม่ระบุ dbname
+            $sqlstate = $e->getCode();
+            if (intval($sqlstate) === 1049 || (is_array($e->errorInfo) && isset($e->errorInfo[1]) && $e->errorInfo[1] == 1049)) {
+                try {
+                    $dsnNoDb = "mysql:host={$h};port={$port};charset=utf8mb4";
+                    $adminPdo = new PDO($dsnNoDb, $user, $pass, [
+                        PDO::ATTR_ERRMODE => PDO::ERRMODE_EXCEPTION,
+                        PDO::ATTR_DEFAULT_FETCH_MODE => PDO::FETCH_ASSOC,
+                        PDO::ATTR_EMULATE_PREPARES => false,
+                    ]);
+                    // พยายามสร้างฐานข้อมูลถ้ายังไม่มี
+                    $createSql = "CREATE DATABASE IF NOT EXISTS `" . str_replace('`', '``', $dbname) . "` CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci";
+                    $adminPdo->exec($createSql);
+                    // หลังจากสร้าง ลองเชื่อมต่ออีกครั้งกับฐานข้อมูล
+                    $pdo = new PDO($dsn, $user, $pass, [
+                        PDO::ATTR_ERRMODE => PDO::ERRMODE_EXCEPTION,
+                        PDO::ATTR_DEFAULT_FETCH_MODE => PDO::FETCH_ASSOC,
+                        PDO::ATTR_EMULATE_PREPARES => false,
+                    ]);
+                    $host = $h;
+                    break;
+                } catch (PDOException $inner) {
+                    // เก็บ exception ล่าสุด แล้วลอง host ถัดไป
+                    $lastException = $inner;
+                }
+            }
+            // otherwise try next host
         }
     }
 
