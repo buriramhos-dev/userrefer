@@ -200,17 +200,18 @@ foreach ($zipcodeRows as $zipRow) {
         tr.group-header td.group-header-cell {
             background: linear-gradient(135deg, #fda81fff 0%, #fda81fff  100%);
             color: #fff;
-            font-size: 16px;
+            font-size: 15px;
             font-weight: 700;
-            padding: 15px 20px;
+            padding: 12px 16px;
             text-align: left;
             border-bottom: 3px solid rgba(255, 255, 255, 0.3);
             vertical-align: middle;
+            line-height: 1.2;
         }
         tr.group-header.status-group-1 td.group-header-cell {
             background: linear-gradient(135deg, #3da9fc 0%, #3e8deeff 100%);
         }
-ถ้า
+
         tr.group-header.status-group-2 td.group-header-cell {
             background: linear-gradient(135deg, #fda81fff 0%, #fda81fff 100%);
         }
@@ -364,8 +365,9 @@ foreach ($zipcodeRows as $zipRow) {
             }
 
             tr.group-header td.group-header-cell {
-                padding: 10px 8px;
-                font-size: 12px;
+                padding: 6px 8px;
+                font-size: 11px;
+                line-height: 1.05;
             }
         }
 
@@ -407,8 +409,9 @@ foreach ($zipcodeRows as $zipRow) {
             }
 
             tr.group-header td.group-header-cell {
-                font-size: 11px;
-                padding: 8px 6px;
+                font-size: 10px;
+                padding: 6px 6px;
+                line-height: 1.0;
             }
         }
     </style>
