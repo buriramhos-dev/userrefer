@@ -1,56 +1,34 @@
 <?php
-// ต้องมีไฟล์ db.php สำหรับเชื่อมต่อฐานข้อมูล
+// หน้านี้ทำเหมือน user.php แต่ไม่แสดง ชื่อ และ นามสกุล
 require_once __DIR__ . '/db.php';
 
-// Helper to sanitize output
 function e($v) { return htmlspecialchars($v ?? '', ENT_QUOTES, 'UTF-8'); }
 
-// Fetch rows and group by status
-// ในหน้านี้เราไม่ต้องการ POST handler เพราะไม่มีการเพิ่ม/แก้ไข/ลบ
+// Fetch rows (exclude name and surname from SELECT since we don't show them)
 $allRows = $pdo->query("
-    SELECT id, date_in, name, surname, gender, ward, hospital, o2_ett_icd, partner, note,
+    SELECT id, date_in, gender, ward, hospital, o2_ett_icd, partner, note,
            time_contact AS contact_time, status
     FROM `{$tableName}`
     ORDER BY status ASC, date_in DESC, id DESC
 ")->fetchAll();
 
 // Group rows by status
-$groupedRows = [
-    1 => [], // รอรถเข้ารับ
-    2 => [], // รถกำลังมารับ
-    3 => []  // บุรีรัมย์ไปส่ง
-];
-
+$groupedRows = [1 => [], 2 => [], 3 => []];
 foreach ($allRows as $row) {
     $status = (int)$row['status'];
-    if (isset($groupedRows[$status])) {
-        $groupedRows[$status][] = $row;
-    }
+    if (isset($groupedRows[$status])) $groupedRows[$status][] = $row;
 }
 
-$statusLabels = [
-    1 => 'รอรถเข้ารับ',
-    2 => 'รถกำลังมารับ',
-    3 => 'บุรีรัมย์ไปส่ง'
-];
+$statusLabels = [1 => 'รอรถเข้ารับ', 2 => 'รถกำลังมารับ', 3 => 'บุรีรัมย์ไปส่ง'];
 
-// Fetch hospital zipcodes for search helper
-$zipcodeRows = $pdo->query("
-    SELECT hospital_name, zipcode
-    FROM hospital_zipcodes
-    WHERE zipcode IS NOT NULL AND zipcode <> ''
-")->fetchAll();
-
+// Fetch zipcode helpers (same as user.php)
+$zipcodeRows = $pdo->query("SELECT hospital_name, zipcode FROM hospital_zipcodes WHERE zipcode IS NOT NULL AND zipcode <> ''")->fetchAll();
 $zipcodeMap = [];
 foreach ($zipcodeRows as $zipRow) {
     $zip = trim($zipRow['zipcode']);
     $hospitalName = trim($zipRow['hospital_name']);
-    if ($zip === '' || $hospitalName === '') {
-        continue;
-    }
-    if (!isset($zipcodeMap[$zip])) {
-        $zipcodeMap[$zip] = [];
-    }
+    if ($zip === '' || $hospitalName === '') continue;
+    if (!isset($zipcodeMap[$zip])) $zipcodeMap[$zip] = [];
     $zipcodeMap[$zip][] = $hospitalName;
 }
 ?>
@@ -59,9 +37,7 @@ foreach ($zipcodeRows as $zipRow) {
 <head>
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width,initial-scale=1">
-    
     <link href="https://fonts.googleapis.com/css2?family=Prompt:wght@300;400;500;600;700&display=swap" rel="stylesheet">
-    
     <style>
         /* สไตล์หลัก */
         * {
@@ -104,7 +80,6 @@ foreach ($zipcodeRows as $zipRow) {
             margin-top: 0;
         }
 
-    
         /* Header layout: images on both sides, title centered */
         .page-header { display: flex; align-items: center; justify-content: center; gap: 30px; margin-bottom: 18px; }
         .page-header h2 { text-align: center; margin: 0; flex: 0 1 auto; }
@@ -431,205 +406,157 @@ foreach ($zipcodeRows as $zipRow) {
             }
         }
     </style>
-
+</head>
+<body>
 <div class="container">
-<div class="page-header">
-    <img src="img/doctor.png" alt="doctor" class="doctor-img">
-    <h2>ผู้ป่วยรอส่งกลับไปรักษาต่อ</h2>
-    <img src="img/ambulance.png" alt="doctor" class="ambulance-img">
-</div>
-<div class="toolbar">
-    <select id="statusFilter">
-        <option value="">-- กรองตามสถานะทั้งหมด --</option>
-        <option value="1">รอรถเข้ารับ</option>
-        <option value="2">รถกำลังมารับ</option>
-        <option value="3">บุรีรัมย์ไปส่ง</option>
-    </select>
-    <input type="text" id="hospitalSearch" placeholder="🔍 ค้นหาชื่อโรงพยาบาลหรือรหัส">
-</div>
+    <div class="page-header">
+        <img src="img/doctor.png" alt="doctor" class="doctor-img">
+        <h2>ผู้ป่วยรอส่งกลับไปรักษาต่อ
+            </h2>
+            <img src="img/ambulance.png" alt="ambulance" class="ambulance-img">
+    </div>
 
-<div class="table-wrapper">
-<table>
-    <thead>
-        <tr>
-            <th>วันที่</th>
-            <th>ชื่อ</th>
-            <th>นามสกุล</th>
-            <th>เพศ</th>
-            <th>ตึก</th>
-            <th>โรงพยาบาล</th>
-            <th>อุปกรณ์ที่ใช้</th>
-            <th>พันธมิตร</th>
-            <th>หมายเหตุ</th>
-            <th>เวลาประสาน</th>
-            <th>สถานะ</th>
+    <div class="toolbar">
+        <select id="statusFilter">
+            <option value="">-- กรองตามสถานะทั้งหมด --</option>
+            <option value="1">รอรถเข้ารับ</option>
+            <option value="2">รถกำลังมารับ</option>
+            <option value="3">บุรีรัมย์ไปส่ง</option>
+        </select>
+        <input type="text" id="hospitalSearch" placeholder="🔍 ค้นหาชื่อโรงพยาบาลหรือรหัส">
+    </div>
+
+    <div class="table-wrapper">
+    <table>
+        <thead>
+            <tr>
+                <th>วันที่</th>
+                <th>เพศ</th>
+                <th>ตึก</th>
+                <th>โรงพยาบาล</th>
+                <th>อุปกรณ์ที่ใช้</th>
+                <th>พันธมิตร</th>
+                <th>หมายเหตุ</th>
+                <th>เวลาประสาน</th>
+                <th>สถานะ</th>
             </tr>
-    </thead>
-    <tbody id="dataTableBody">
-    <?php 
-    $hasData = false;
-    foreach ($groupedRows as $status => $rows) {
-        if (!empty($rows)) {
-            $hasData = true;
-            // Group header
-            ?>
-            <tr class="group-header status-group-<?= $status ?>" data-group-status="<?= $status ?>">
-                <td colspan="11" class="group-header-cell">
-                    <strong>กลุ่มที่ <?= $status ?>: <?= $statusLabels[$status] ?></strong>
-                    <span class="group-count">(<?= count($rows) ?> รายการ)</span>
-                </td>
-            </tr>
-            <?php
-            // Group rows
-            foreach ($rows as $r): ?>
-                <tr data-status="<?= e($r['status']) ?>">
-                    <td data-label="DATE"><?= e($r['date_in']) ?></td>
-                    <td data-label="NAME"><?= e($r['name']) ?></td>
-                    <td data-label="SURNAME"><?= e($r['surname']) ?></td>
-                    <td data-label="GENDER"><?= ($r['gender'] === 'M') ? 'ชาย' : (($r['gender'] === 'F') ? 'หญิง' : '-') ?></td>
-                    <td data-label="WARD"><?= e($r['ward']) ?></td>
-                    <td data-label="HOSPITAL"><?= e($r['hospital']) ?></td> 
-                    <td data-label="O2/ETT/ICD"><?= e($r['o2_ett_icd']) ?></td>
-                    <td data-label="พันธมิตร"><?= e($r['partner']) ?></td>
-                    <td data-label="หมายเหตุ"><?= e($r['note']) ?></td>
-                    <td data-label="เวลาประสาน"><?= e($r['contact_time']) ?></td>
-                    <td data-label="สถานะ" class="status-<?= e($r['status']) ?>">
-                        <?= $statusLabels[$r['status']] ?? '-' ?>
+        </thead>
+        <tbody id="dataTableBody">
+        <?php
+        $hasData = false;
+        foreach ($groupedRows as $status => $rows) {
+            if (!empty($rows)) {
+                $hasData = true;
+                ?>
+                <tr class="group-header status-group-<?= $status ?>" data-group-status="<?= $status ?>">
+                    <td colspan="9" class="group-header-cell">
+                        <strong>กลุ่มที่ <?= $status ?>: <?= $statusLabels[$status] ?></strong>
+                        <span class="group-count">(<?= count($rows) ?> รายการ)</span>
                     </td>
                 </tr>
-            <?php endforeach;
+                <?php
+                foreach ($rows as $r): ?>
+                    <tr data-status="<?= e($r['status']) ?>">
+                        <td data-label="DATE"><?= e($r['date_in']) ?></td>
+                        <td data-label="GENDER"><?= ($r['gender'] === 'M') ? 'ชาย' : (($r['gender'] === 'F') ? 'หญิง' : '-') ?></td>
+                        <td data-label="WARD"><?= e($r['ward']) ?></td>
+                        <td data-label="HOSPITAL"><?= e($r['hospital']) ?></td>
+                        <td data-label="O2/ETT/ICD"><?= e($r['o2_ett_icd']) ?></td>
+                        <td data-label="พันธมิตร"><?= e($r['partner']) ?></td>
+                        <td data-label="หมายเหตุ"><?= e($r['note']) ?></td>
+                        <td data-label="เวลาประสาน"><?= e($r['contact_time']) ?></td>
+                        <td data-label="สถานะ" class="status-<?= e($r['status']) ?>"><?= $statusLabels[$r['status']] ?? '-' ?></td>
+                    </tr>
+                <?php endforeach;
+            }
         }
-    }
-    if (!$hasData): ?>
-        <tr><td colspan="12" style="text-align:center;">ไม่มีข้อมูล</td></tr>
-    <?php endif; ?>
-    </tbody>
-</table>
+        if (!$hasData): ?>
+            <tr><td colspan="9" style="text-align:center;">ไม่มีข้อมูล</td></tr>
+        <?php endif; ?>
+        </tbody>
+    </table>
+    </div>
 </div>
 
 <script>
 const zipcodeMap = <?= json_encode($zipcodeMap, JSON_UNESCAPED_UNICODE | JSON_UNESCAPED_SLASHES); ?> || {};
-
 function getHospitalsFromZipInput(inputValue) {
-    const filter = inputValue.trim().toLowerCase();
-    if (!filter) return null;
+    const filter = inputValue.trim().toLowerCase(); if (!filter) return null;
     const matches = [];
     Object.entries(zipcodeMap).forEach(([zip, hospitals]) => {
         if (!zip) return;
         if (zip.toLowerCase().startsWith(filter)) {
             (hospitals || []).forEach(name => {
-                const lower = (name || '').toLowerCase();
-                if (lower && !matches.includes(lower)) {
-                    matches.push(lower);
-                }
+                const lower = (name || '').toLowerCase(); if (lower && !matches.includes(lower)) matches.push(lower);
             });
         }
     });
     return matches.length ? matches : null;
 }
 
-// คืนค่าชื่อโรงพยาบาล (รูปแบบต้นฉบับ) ตาม prefix ของ zipcode ที่พิมพ์
-// (Removed helper that returned hospital name suggestions — dropdown disabled)
-
 document.addEventListener('DOMContentLoaded', function() {
     const searchInput = document.getElementById('hospitalSearch');
     const statusFilter = document.getElementById('statusFilter');
     const tableBody = document.getElementById('dataTableBody');
-    const hospitalColumnIndex = 5; // คอลัมน์ HOSPITAL อยู่ลำดับที่ 5 (นับจาก 0) — เพิ่มคอลัมน์เพศแล้ว
+    const hospitalColumnIndex = 3; // date(0), gender(1), ward(2), hospital(3)
 
-    // ฟังก์ชันหลักในการกรอง/ค้นหาข้อมูล
     function applyFilters() {
         const hospitalFilter = searchInput.value.trim().toLowerCase();
-        const selectedStatus = statusFilter.value; // ค่า status (1, 2, 3 หรือ "")
-        const rows = tableBody.getElementsByTagName('tr');
-
-        let hasData = false;
-        let groupHasVisibleRows = {}; // เก็บสถานะว่ากลุ่มไหนมีแถวที่แสดง
+        const selectedStatus = statusFilter.value;
+        const rows = Array.from(tableBody.getElementsByTagName('tr'));
         const hospitalsFromZip = getHospitalsFromZipInput(hospitalFilter);
 
-        for (let i = 0; i < rows.length; i++) {
-            const row = rows[i];
-            
-            // ตรวจสอบว่าเป็น group header หรือไม่
-            if (row.classList.contains('group-header')) {
-                const groupStatus = row.getAttribute('data-group-status');
-                // แสดง group header ถ้ามีแถวที่แสดงในกลุ่มนั้น หรือถ้าไม่มีการกรองสถานะ
-                if (selectedStatus === "" || selectedStatus === groupStatus) {
-                    // ตรวจสอบว่ามีแถวในกลุ่มนี้ที่แสดงหรือไม่ (จะตรวจสอบหลังจากวนลูป)
-                    continue;
-                } else {
-                    row.style.display = "none";
-                    continue;
-                }
-            }
-            
-            // ข้ามแถวที่ไม่มีข้อมูลจริง (เช่น แถว "ไม่มีข้อมูล")
-            if (row.children.length < 10) {
-                 row.style.display = "";
-                 continue;
-            }
-            
+        // First: evaluate data rows and record which groups have visible rows
+        const groupHasVisibleRows = {};
+        rows.forEach(row => {
+            if (row.classList.contains('group-header')) return; // skip headers for now
+
+            // If this row is not a normal data row (e.g. placeholder), show it
+            if (row.children.length < 9) { row.style.display = ''; return; }
+
             const hospitalCell = row.getElementsByTagName('td')[hospitalColumnIndex];
             const rowStatus = row.getAttribute('data-status');
-            
-            if (!hospitalCell) continue;
+            if (!hospitalCell) { row.style.display = 'none'; return; }
 
-            const hospitalText = hospitalCell.textContent || hospitalCell.innerText;
+            const hospitalText = (hospitalCell.textContent || hospitalCell.innerText).toLowerCase();
 
-            // ตรวจสอบเงื่อนไขการค้นหาโรงพยาบาล
+            // Status filter: if a status is selected and this row doesn't match, hide it
+            if (selectedStatus && rowStatus !== selectedStatus) {
+                row.style.display = 'none';
+                return;
+            }
+
+            // Hospital filter / zipcode matching
             let matchesHospital = true;
-            const hospitalLower = hospitalText.toLowerCase();
-            if (hospitalFilter) {
-                matchesHospital = hospitalLower.indexOf(hospitalFilter) > -1;
-            }
-
+            if (hospitalFilter) matchesHospital = hospitalText.indexOf(hospitalFilter) > -1;
             let matchesZip = false;
-            if (hospitalsFromZip && hospitalsFromZip.length) {
-                matchesZip = hospitalsFromZip.some(name => hospitalLower.indexOf(name) > -1);
-            }
+            if (hospitalsFromZip && hospitalsFromZip.length) matchesZip = hospitalsFromZip.some(name => hospitalText.indexOf(name) > -1);
 
-            // ตรวจสอบเงื่อนไขการกรองสถานะ
-            const matchesStatus = (selectedStatus === "" || rowStatus === selectedStatus);
-
-            // แสดงผลลัพธ์
-            if ((hospitalFilter === "" || matchesHospital || matchesZip) && matchesStatus) {
-                row.style.display = "";
-                hasData = true;
-                // บันทึกว่ากลุ่มนี้มีแถวที่แสดง
-                if (rowStatus) {
-                    groupHasVisibleRows[rowStatus] = true;
-                }
+            if ((hospitalFilter === '' || matchesHospital || matchesZip)) {
+                row.style.display = '';
+                if (rowStatus) groupHasVisibleRows[rowStatus] = true;
             } else {
-                row.style.display = "none";
+                row.style.display = 'none';
             }
-        }
-        
-        // แสดง/ซ่อน group header ตามว่ามีแถวที่แสดงในกลุ่มนั้นหรือไม่
-        for (let i = 0; i < rows.length; i++) {
-            const row = rows[i];
-            if (row.classList.contains('group-header')) {
-                const groupStatus = row.getAttribute('data-group-status');
-                if (selectedStatus === "" || selectedStatus === groupStatus) {
-                    // แสดง group header ถ้ามีแถวที่แสดงในกลุ่มนี้
-                    if (groupHasVisibleRows[groupStatus]) {
-                        row.style.display = "";
-                    } else {
-                        row.style.display = "none";
-                    }
-                }
+        });
+
+        // Second: show/hide group headers. If a specific status is selected, show only that group's header (if it has rows)
+        rows.forEach(row => {
+            if (!row.classList.contains('group-header')) return;
+            const groupStatus = row.getAttribute('data-group-status');
+            if (selectedStatus) {
+                // show only the selected group's header when selected
+                row.style.display = (groupStatus === selectedStatus && groupHasVisibleRows[groupStatus]) ? '' : 'none';
+            } else {
+                // no status filter selected: show header only if group has visible rows
+                row.style.display = groupHasVisibleRows[groupStatus] ? '' : 'none';
             }
-        }
+        });
     }
 
-    // เพิ่ม Event Listener: ใช้เฉพาะการกรองแถวตามข้อความที่พิมพ์
     searchInput.addEventListener('keyup', applyFilters);
     statusFilter.addEventListener('change', applyFilters);
-
-    // **********************************************
-    // หมายเหตุ: ในหน้านี้เราไม่ต้องการ Modal Functions 
-    // **********************************************
 });
 </script>
-
 </body>
 </html>

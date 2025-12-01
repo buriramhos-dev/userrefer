@@ -13,12 +13,7 @@ try {
     $pdo = new PDO(
         "mysql:host=$host;port=$port;dbname=$dbname;charset=utf8mb4",
         $user,
-        $pass,
-        [
-            PDO::ATTR_ERRMODE => PDO::ERRMODE_EXCEPTION,
-            PDO::ATTR_DEFAULT_FETCH_MODE => PDO::FETCH_ASSOC,
-            PDO::ATTR_EMULATE_PREPARES => false
-        ]
+        $pass
     );
 
 } catch (PDOException $e) {
@@ -42,15 +37,17 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
         $date_in_text = $_POST['date_in'] ?? null;
         $time_contact = $_POST['time_contact'] ?? null;
         $status = $_POST['status'] ?? 1;
+        $gender = $_POST['gender'] ?? null;
 
         $stmt = $pdo->prepare("INSERT INTO `{$tableName}` (
-            date_in, name, surname, ward, hospital, o2_ett_icd, partner, note, time_contact, status
-        ) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?)");
+            date_in, name, surname, gender, ward, hospital, o2_ett_icd, partner, note, time_contact, status
+        ) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)");
 
         $stmt->execute([
             $date_in_text, // ใช้ค่าที่ผู้ใช้พิมพ์โดยตรง
             $_POST['name'] ?: null,
             $_POST['surname'] ?: null,
+            $gender ?: null,
             $_POST['ward'] ?: null,
             $_POST['hospital'] ?: null,
             $_POST['o2_ett_icd'] ?: null,
@@ -70,15 +67,17 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
         $date_in_text = $_POST['date_in'] ?? null;
         $time_contact = $_POST['time_contact'] ?? null;
         $status = $_POST['status'] ?? 1;
+        $gender = $_POST['gender'] ?? null;
 
         $stmt = $pdo->prepare("UPDATE `{$tableName}` SET
-            date_in = ?, name = ?, surname = ?, ward = ?, hospital = ?, o2_ett_icd = ?, partner = ?, note = ?, time_contact = ?, status = ?
+            date_in = ?, name = ?, surname = ?, gender = ?, ward = ?, hospital = ?, o2_ett_icd = ?, partner = ?, note = ?, time_contact = ?, status = ?
             WHERE id = ?");
 
         $stmt->execute([
             $date_in_text, // ใช้ค่าที่ผู้ใช้พิมพ์โดยตรง
             $_POST['name'] ?: null,
             $_POST['surname'] ?: null,
+            $gender ?: null,
             $_POST['ward'] ?: null,
             $_POST['hospital'] ?: null,
             $_POST['o2_ett_icd'] ?: null,
@@ -104,7 +103,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
 
 // Fetch rows and group by status
 $allRows = $pdo->query("
-    SELECT id, date_in, name, surname, ward, hospital, o2_ett_icd, partner, note,
+    SELECT id, date_in, name, surname, gender, ward, hospital, o2_ett_icd, partner, note,
            time_contact AS contact_time, status
     FROM `{$tableName}`
     ORDER BY status ASC, date_in DESC, id DESC
@@ -292,12 +291,13 @@ foreach ($zipcodeRows as $zipRow) {
         tr.group-header td.group-header-cell {
             background: linear-gradient(135deg, #0a5e59ff 0%, #44a08d 100%);
             color: #fff;
-            font-size: 16px;
+            font-size: 14px;
             font-weight: 700;
-            padding: 15px 20px;
+            padding: 8px 12px;
             text-align: left;
             border-bottom: 3px solid rgba(255, 255, 255, 0.3);
             vertical-align: middle;
+            line-height: 1.3;
         }
 
         tr.group-header.status-group-1 td.group-header-cell {
@@ -666,6 +666,7 @@ foreach ($zipcodeRows as $zipRow) {
          <th>วันที่</th>
             <th>ชื่อ</th>
             <th>นามสกุล</th>
+            <th>เพศ</th>
             <th>ตึก</th>
             <th>โรงพยาบาล</th>
             <th>อุปกรณ์ที่ใช้</th>
@@ -685,7 +686,7 @@ foreach ($zipcodeRows as $zipRow) {
             // Group header
             ?>
             <tr class="group-header status-group-<?= $status ?>" data-group-status="<?= $status ?>">
-                <td colspan="11" class="group-header-cell">
+                <td colspan="12" class="group-header-cell">
                     <strong>กลุ่มที่ <?= $status ?>: <?= $statusLabels[$status] ?></strong>
                     <span class="group-count">(<?= count($rows) ?> รายการ)</span>
                 </td>
@@ -697,6 +698,7 @@ foreach ($zipcodeRows as $zipRow) {
                     <td data-label="DATE"><?= e($r['date_in']) ?></td>
                     <td data-label="NAME"><?= e($r['name']) ?></td>
                     <td data-label="SURNAME"><?= e($r['surname']) ?></td>
+                    <td data-label="GENDER"><?= ($r['gender'] === 'M') ? 'ชาย' : (($r['gender'] === 'F') ? 'หญิง' : '-') ?></td>
                     <td data-label="WARD"><?= e($r['ward']) ?></td>
                     <td data-label="HOSPITAL"><?= e($r['hospital']) ?></td> 
                     <td data-label="O2/ETT/ICD"><?= e($r['o2_ett_icd']) ?></td>
@@ -717,7 +719,7 @@ foreach ($zipcodeRows as $zipRow) {
         }
     }
     if (!$hasData): ?>
-        <tr><td colspan="11" style="text-align:center;">ไม่มีข้อมูล</td></tr>
+        <tr><td colspan="13" style="text-align:center;">ไม่มีข้อมูล</td></tr>
     <?php endif; ?>
     </tbody>
 </table>
@@ -746,6 +748,13 @@ foreach ($zipcodeRows as $zipRow) {
 
                 <div class="form-row"><label for="name">NAME</label><input type="text" name="name" id="name"></div>
                 <div class="form-row"><label for="surname">SURNAME</label><input type="text" name="surname" id="surname"></div>
+                <div class="form-row"><label for="gender">เพศ</label>
+                    <select name="gender" id="gender">
+                        <option value="">-- เลือก --</option>
+                        <option value="M">ชาย</option>
+                        <option value="F">หญิง</option>
+                    </select>
+                </div>
 
                 <div class="form-row"><label for="ward">WARD</label><input type="text" name="ward" id="ward"></div>
                 <div class="form-row"><label for="hospital">HOSPITAL</label><input type="text" name="hospital" id="hospital"></div>
@@ -872,8 +881,8 @@ document.addEventListener('DOMContentLoaded', function() {
         document.getElementById('formAction').value = 'add';
         document.getElementById('formId').value = '';
 
-        // Clear form fields
-        ['date_in','name','surname','ward','hospital','o2_ett_icd','partner','note','time_contact']
+        // Clear form fields (include gender)
+        ['date_in','name','surname','gender','ward','hospital','o2_ett_icd','partner','note','time_contact']
             .forEach(id => { document.getElementById(id).value = ''; });
         
         document.getElementById('status').value = 1;
@@ -898,6 +907,7 @@ document.addEventListener('DOMContentLoaded', function() {
             
             document.getElementById('name').value = row.name || '';
             document.getElementById('surname').value = row.surname || '';
+            document.getElementById('gender').value = row.gender || '';
             document.getElementById('ward').value = row.ward || '';
             document.getElementById('hospital').value = row.hospital || '';
             document.getElementById('o2_ett_icd').value = row.o2_ett_icd || '';
