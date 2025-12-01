@@ -198,7 +198,7 @@ foreach ($zipcodeRows as $zipRow) {
         }
 
         tr.group-header td.group-header-cell {
-            background: linear-gradient(135deg, #44ecdc 0%, #44a08d 100%);
+            background: linear-gradient(135deg, #fda81fff 0%, #fda81fff  100%);
             color: #fff;
             font-size: 16px;
             font-weight: 700;
