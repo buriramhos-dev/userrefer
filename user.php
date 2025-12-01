@@ -111,9 +111,9 @@ foreach ($zipcodeRows as $zipRow) {
         .doctor-img, .ambulance-img { max-width: 140px; height: auto; display: block; flex: 0 0 auto; }
 
         @media (max-width: 768px) {
-            .page-header { flex-direction: column; align-items: center; gap: 15px; }
-            .page-header h2 { text-align: center; }
-            .doctor-img, .ambulance-img { margin: 0; }
+            .page-header { gap: 15px; }
+            .page-header h2 { text-align: center; font-size: 20px; }
+            .doctor-img, .ambulance-img { max-width: 100px; }
         }
         /* Toolbar */
         .toolbar {
@@ -270,19 +270,21 @@ foreach ($zipcodeRows as $zipRow) {
             display: inline-block;
         }
         
-        /* Responsive Design */
+        /* Responsive Design - Horizontal Scroll Table */
         @media (max-width: 768px) {
             body {
                 padding: 10px;
             }
 
             .container {
-                padding: 20px;
-                border-radius: 15px;
+                padding: 15px;
+                border-radius: 12px;
+                overflow: visible;
             }
 
             h2 {
                 font-size: 22px;
+                margin-bottom: 15px;
             }
             
             /* Toolbar Stacked on mobile */
@@ -290,62 +292,123 @@ foreach ($zipcodeRows as $zipRow) {
                 flex-direction: column;
                 align-items: stretch;
                 gap: 10px;
+                margin-bottom: 15px;
             }
 
             #hospitalSearch, #statusFilter {
                 width: 100%;
                 box-sizing: border-box;
+                padding: 12px 14px;
+                font-size: 15px;
             }
 
-            /* Table Responsive setup */
-            table, thead, tbody, th, td, tr { display: block; }
-            thead tr {
-                position: absolute; top: -9999px; left: -9999px; 
-            }
-            tr { 
-                border: 1px solid #e0e0e0; 
-                margin-bottom: 15px; 
-                border-radius: 12px; 
-                overflow: hidden;
-                box-shadow: 0 2px 8px rgba(0,0,0,0.1);
-                background: white;
-            }
-            
-            /* Cell (td) layout */
-            td {
-                border: none; 
-                border-bottom: 1px solid #f0f0f0; 
-                position: relative;
-                padding-left: 120px; 
-                padding-top: 12px;
-                padding-bottom: 12px;
-                text-align: left; 
-                min-height: 45px; 
-                display: flex; 
-                align-items: center; 
-            }
-            td:last-child {
-                border-bottom: none;
+            /* Wrapper for horizontal scroll */
+            .table-wrapper {
+                overflow-x: auto;
+                -webkit-overflow-scrolling: touch;
+                border-radius: 12px;
+                margin: 0;
+                padding: 0;
             }
 
-            /* Label (::before) styling */
-            td:before {
-                position: absolute; 
-                top: 0; 
-                left: 0;
-                width: 110px; 
-                padding: 12px 0 12px 15px; 
-                white-space: nowrap; 
-                content: attr(data-label);
-                font-weight: 600;
+            /* Table with horizontal scroll */
+            table {
+                width: 100%;
+                min-width: 900px;
+                font-size: 12px;
+                border-collapse: collapse;
+            }
+
+            thead {
+                display: table-header-group;
+            }
+
+            tbody {
+                display: table-row-group;
+            }
+
+            tr {
+                display: table-row;
+            }
+
+            th, td {
+                display: table-cell;
+                padding: 10px 8px;
+                font-size: 11px;
                 text-align: left;
-                color: #4ecdc4;
-                font-size: 13px;
-                display: flex;
-                align-items: center;
-                height: 100%;
-                box-sizing: border-box;
+            }
+
+            th {
+                font-weight: 600;
+                background: linear-gradient(135deg,  #55423d 0%, #6d554eff 100%);
+                color: white;
+            }
+
+            td {
+                border-bottom: 1px solid #f0f0f0;
+            }
+
+            tr:hover td {
                 background: rgba(78, 205, 196, 0.05);
+                transform: none;
+            }
+
+            /* Hide data-label attributes on table view */
+            td::before {
+                content: none !important;
+            }
+
+            /* Group header styling */
+            tr.group-header {
+                display: table-row;
+            }
+
+            tr.group-header td.group-header-cell {
+                padding: 10px 8px;
+                font-size: 12px;
+            }
+        }
+
+        @media (max-width: 480px) {
+            body {
+                padding: 8px;
+            }
+
+            .container {
+                padding: 12px;
+            }
+
+            .page-header {
+                gap: 8px;
+            }
+
+            .doctor-img, .ambulance-img {
+                max-width: 100px;
+            }
+
+            h2 {
+                font-size: 18px;
+                margin-bottom: 12px;
+            }
+
+            table {
+                min-width: 750px;
+                font-size: 10px;
+            }
+
+            th, td {
+                padding: 8px 6px;
+                font-size: 10px;
+            }
+
+            #hospitalSearch, #statusFilter {
+                font-size: 14px;
+                padding: 10px 12px;
+            }
+
+            tr.group-header td.group-header-cell {
+                font-size: 11px;
+                padding: 8px 6px;
             }
         }
     </style>
@@ -368,6 +431,7 @@ foreach ($zipcodeRows as $zipRow) {
     <input type="text" id="hospitalSearch" placeholder="🔍 ค้นหาชื่อโรงพยาบาลหรือรหัส">
 </div>
 
+<div class="table-wrapper">
 <table>
     <thead>
         <tr>
