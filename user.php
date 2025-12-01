@@ -114,6 +114,22 @@ foreach ($zipcodeRows as $zipRow) {
             .page-header { gap: 15px; }
             .page-header h2 { text-align: center; font-size: 20px; }
             .doctor-img, .ambulance-img { max-width: 100px; }
+            /* Group header styling (mobile) - reduce size further */
+            tr.group-header td.group-header-cell {
+                padding: 3px 6px;
+                font-size: 10px;
+                line-height: 1.0;
+                white-space: nowrap;
+                overflow: hidden;
+                text-overflow: ellipsis;
+                border-bottom-width: 1px;
+            }
+
+            /* hide the count text to save horizontal space on small screens */
+            tr.group-header td.group-header-cell .group-count,
+            .group-count {
+                display: none;
+            }
         }
         /* Toolbar */
         .toolbar {
@@ -200,13 +216,16 @@ foreach ($zipcodeRows as $zipRow) {
         tr.group-header td.group-header-cell {
             background: linear-gradient(135deg, #fda81fff 0%, #fda81fff  100%);
             color: #fff;
-            font-size: 15px;
+            font-size: 14px;
             font-weight: 700;
-            padding: 12px 16px;
+            padding: 8px 12px;
             text-align: left;
-            border-bottom: 3px solid rgba(255, 255, 255, 0.3);
+            border-bottom: 2px solid rgba(255, 255, 255, 0.25);
             vertical-align: middle;
-            line-height: 1.2;
+            line-height: 1.1;
+            white-space: nowrap;
+            overflow: hidden;
+            text-overflow: ellipsis;
         }
         tr.group-header.status-group-1 td.group-header-cell {
             background: linear-gradient(135deg, #3da9fc 0%, #3e8deeff 100%);
@@ -365,9 +384,12 @@ foreach ($zipcodeRows as $zipRow) {
             }
 
             tr.group-header td.group-header-cell {
-                padding: 6px 8px;
-                font-size: 11px;
-                line-height: 1.05;
+                padding: 4px 6px;
+                font-size: 10px;
+                line-height: 1.0;
+                white-space: nowrap;
+                overflow: hidden;
+                text-overflow: ellipsis;
             }
         }
 
@@ -409,14 +431,15 @@ foreach ($zipcodeRows as $zipRow) {
             }
 
             tr.group-header td.group-header-cell {
-                font-size: 10px;
-                padding: 6px 6px;
+                font-size: 9px;
+                padding: 3px 6px;
                 line-height: 1.0;
+                white-space: nowrap;
+                overflow: hidden;
+                text-overflow: ellipsis;
             }
         }
     </style>
-</head>
-<body>
 
 <div class="container">
 <div class="page-header">
