@@ -808,7 +808,108 @@ document.addEventListener('DOMContentLoaded', function() {
     const searchInput = document.getElementById('hospitalSearch');
     const tableBody = document.getElementById('dataTableBody');
     // คอลัมน์ HOSPITAL อยู่ลำดับที่ 4 (นับจาก 0)
-    const hospitalColumnIndex = 4; 
+    const hospitalColumnIndex = 4;
+
+    // *** Auto-refresh Polling (3 seconds) ***
+    let lastDataHash = null;
+    setInterval(function() {
+        fetch('api_get_data.php')
+            .then(response => response.json())
+            .then(json => {
+                if (!json.success) return;
+                
+                const dataString = JSON.stringify(json.data);
+                const currentHash = dataString.length; // Simple hash
+                
+                if (lastDataHash !== currentHash) {
+                    lastDataHash = currentHash;
+                    rebuildTableFromData(json.data);
+                }
+            })
+            .catch(err => console.log('Polling error:', err));
+    }, 3000); // 3 seconds
+
+    // Function: rebuild table from API data
+    function rebuildTableFromData(allRows) {
+        // Group rows by status
+        const groupedRows = { 1: [], 2: [], 3: [] };
+        allRows.forEach(row => {
+            const status = parseInt(row.status);
+            if (groupedRows[status]) groupedRows[status].push(row);
+        });
+
+        const statusLabels = {
+            1: 'รอรถเข้ารับ',
+            2: 'รถกำลังมารับ',
+            3: 'บุรีรัมย์ไปส่ง'
+        };
+
+        // Clear and rebuild table
+        tableBody.innerHTML = '';
+        let hasData = false;
+
+        Object.entries(groupedRows).forEach(([status, rows]) => {
+            if (rows.length > 0) {
+                hasData = true;
+                // Group header
+                const headerTr = document.createElement('tr');
+                headerTr.className = `group-header status-group-${status}`;
+                headerTr.setAttribute('data-group-status', status);
+                headerTr.innerHTML = `<td colspan="12" class="group-header-cell">
+                    <strong>กลุ่มที่ ${status}: ${statusLabels[status]}</strong>
+                    <span class="group-count">(${rows.length} รายการ)</span>
+                </td>`;
+                tableBody.appendChild(headerTr);
+
+                // Data rows
+                rows.forEach(r => {
+                    const tr = document.createElement('tr');
+                    tr.setAttribute('data-status', r.status);
+                    const genderText = r.gender === 'M' ? 'ชาย' : (r.gender === 'F' ? 'หญิง' : '-');
+                    tr.innerHTML = `
+                        <td data-label="DATE">${e(r.date_in)}</td>
+                        <td data-label="NAME">${e(r.name)}</td>
+                        <td data-label="SURNAME">${e(r.surname)}</td>
+                        <td data-label="GENDER">${genderText}</td>
+                        <td data-label="WARD">${e(r.ward)}</td>
+                        <td data-label="HOSPITAL">${e(r.hospital)}</td>
+                        <td data-label="O2/ETT/ICD">${e(r.o2_ett_icd)}</td>
+                        <td data-label="พันธมิตร">${e(r.partner)}</td>
+                        <td data-label="หมายเหตุ">${e(r.note)}</td>
+                        <td data-label="เวลาประสาน">${e(r.contact_time)}</td>
+                        <td data-label="สถานะ" class="status-${e(r.status)}">${statusLabels[r.status] || '-'}</td>
+                        <td class="actions" data-label="จัดการ">
+                            <div class="actions">
+                                <button class="btnEdit" data-row='${JSON.stringify(r).replace(/'/g, "&apos;").replace(/"/g, "&quot;")}'}>แก้ไข</button>
+                                <button class="btnDelete" data-id="${r.id}">ลบ</button>
+                            </div>
+                        </td>
+                    `;
+                    tableBody.appendChild(tr);
+
+                    // Re-attach edit/delete listeners
+                    tr.querySelector('.btnEdit').addEventListener('click', handleEdit);
+                    tr.querySelector('.btnDelete').addEventListener('click', handleDelete);
+                });
+            }
+        });
+
+        if (!hasData) {
+            const tr = document.createElement('tr');
+            tr.innerHTML = '<td colspan="13" style="text-align:center;">ไม่มีข้อมูล</td>';
+            tableBody.appendChild(tr);
+        }
+
+        // Re-attach search listener
+        searchInput.dispatchEvent(new Event('keyup'));
+    }
+
+    // Helper: escape HTML
+    function e(v) {
+        const div = document.createElement('div');
+        div.textContent = v || '';
+        return div.innerHTML;
+    }
 
     // *** Search Filter ***
     searchInput.addEventListener('keyup', function() {
@@ -894,40 +995,43 @@ document.addEventListener('DOMContentLoaded', function() {
         document.getElementById('modal').style.display = 'none';
     });
 
-    document.querySelectorAll('.btnEdit').forEach(function(btn){
-        btn.addEventListener('click', function(){
-            var row = JSON.parse(this.getAttribute('data-row'));
+    // Edit handler (reusable)
+    function handleEdit() {
+        var row = JSON.parse(this.getAttribute('data-row'));
 
-            document.getElementById('modalTitle').textContent = 'แก้ไขข้อมูล';
-            document.getElementById('formAction').value = 'edit';
-            document.getElementById('formId').value = row.id;
+        document.getElementById('modalTitle').textContent = 'แก้ไขข้อมูล';
+        document.getElementById('formAction').value = 'edit';
+        document.getElementById('formId').value = row.id;
 
-            // *** แก้ไข: ใช้ค่า date_in ที่มาจากฐานข้อมูลโดยตรง ไม่ต้องแปลง ***
-            document.getElementById('date_in').value = row.date_in || '';
-            
-            document.getElementById('name').value = row.name || '';
-            document.getElementById('surname').value = row.surname || '';
-            document.getElementById('gender').value = row.gender || '';
-            document.getElementById('ward').value = row.ward || '';
-            document.getElementById('hospital').value = row.hospital || '';
-            document.getElementById('o2_ett_icd').value = row.o2_ett_icd || '';
-            document.getElementById('partner').value = row.partner || '';
-            document.getElementById('note').value = row.note || '';
-            document.getElementById('time_contact').value = row.contact_time || '';
-            document.getElementById('status').value = row.status || 1;
+        document.getElementById('date_in').value = row.date_in || '';
+        document.getElementById('name').value = row.name || '';
+        document.getElementById('surname').value = row.surname || '';
+        document.getElementById('gender').value = row.gender || '';
+        document.getElementById('ward').value = row.ward || '';
+        document.getElementById('hospital').value = row.hospital || '';
+        document.getElementById('o2_ett_icd').value = row.o2_ett_icd || '';
+        document.getElementById('partner').value = row.partner || '';
+        document.getElementById('note').value = row.note || '';
+        document.getElementById('time_contact').value = row.contact_time || '';
+        document.getElementById('status').value = row.status || 1;
 
-            document.getElementById('modal').style.display = 'flex';
-        });
-    });
+        document.getElementById('modal').style.display = 'flex';
+    }
 
-    // *** Delete Confirmation ***
+    // Delete handler (reusable)
     let deleteId = null;
+    function handleDelete(e) {
+        e.preventDefault();
+        deleteId = this.getAttribute('data-id');
+        document.getElementById('deleteConfirmModal').style.display = 'flex';
+    }
+
+    // Attach handlers to existing buttons
+    document.querySelectorAll('.btnEdit').forEach(function(btn){
+        btn.addEventListener('click', handleEdit);
+    });
     document.querySelectorAll('.btnDelete').forEach(function(btn){
-        btn.addEventListener('click', function(e){
-            e.preventDefault();
-            deleteId = this.getAttribute('data-id');
-            document.getElementById('deleteConfirmModal').style.display = 'flex';
-        });
+        btn.addEventListener('click', handleDelete);
     });
 
     document.getElementById('btnConfirmCancel').addEventListener('click', function(){

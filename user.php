@@ -537,6 +537,97 @@ document.addEventListener('DOMContentLoaded', function() {
     const tableBody = document.getElementById('dataTableBody');
     const hospitalColumnIndex = 5; // คอลัมน์ HOSPITAL อยู่ลำดับที่ 5 (นับจาก 0) — เพิ่มคอลัมน์เพศแล้ว
 
+    // *** Auto-refresh Polling (3 seconds) ***
+    let lastDataHash = null;
+    setInterval(function() {
+        fetch('api_get_data_user.php')
+            .then(response => response.json())
+            .then(json => {
+                if (!json.success) return;
+                
+                const dataString = JSON.stringify(json.data);
+                const currentHash = dataString.length; // Simple hash
+                
+                if (lastDataHash !== currentHash) {
+                    lastDataHash = currentHash;
+                    rebuildTableFromData(json.data);
+                }
+            })
+            .catch(err => console.log('Polling error:', err));
+    }, 3000); // 3 seconds
+
+    // Function: rebuild table from API data
+    function rebuildTableFromData(allRows) {
+        // Group rows by status
+        const groupedRows = { 1: [], 2: [], 3: [] };
+        allRows.forEach(row => {
+            const status = parseInt(row.status);
+            if (groupedRows[status]) groupedRows[status].push(row);
+        });
+
+        const statusLabels = {
+            1: 'รอรถเข้ารับ',
+            2: 'รถกำลังมารับ',
+            3: 'บุรีรัมย์ไปส่ง'
+        };
+
+        // Clear and rebuild table
+        tableBody.innerHTML = '';
+        let hasData = false;
+
+        Object.entries(groupedRows).forEach(([status, rows]) => {
+            if (rows.length > 0) {
+                hasData = true;
+                // Group header
+                const headerTr = document.createElement('tr');
+                headerTr.className = `group-header status-group-${status}`;
+                headerTr.setAttribute('data-group-status', status);
+                headerTr.innerHTML = `<td colspan="11" class="group-header-cell">
+                    <strong>กลุ่มที่ ${status}: ${statusLabels[status]}</strong>
+                    <span class="group-count">(${rows.length} รายการ)</span>
+                </td>`;
+                tableBody.appendChild(headerTr);
+
+                // Data rows
+                rows.forEach(r => {
+                    const tr = document.createElement('tr');
+                    tr.setAttribute('data-status', r.status);
+                    const genderText = r.gender === 'M' ? 'ชาย' : (r.gender === 'F' ? 'หญิง' : '-');
+                    tr.innerHTML = `
+                        <td data-label="DATE">${e(r.date_in)}</td>
+                        <td data-label="NAME">${e(r.name)}</td>
+                        <td data-label="SURNAME">${e(r.surname)}</td>
+                        <td data-label="GENDER">${genderText}</td>
+                        <td data-label="WARD">${e(r.ward)}</td>
+                        <td data-label="HOSPITAL">${e(r.hospital)}</td>
+                        <td data-label="O2/ETT/ICD">${e(r.o2_ett_icd)}</td>
+                        <td data-label="พันธมิตร">${e(r.partner)}</td>
+                        <td data-label="หมายเหตุ">${e(r.note)}</td>
+                        <td data-label="เวลาประสาน">${e(r.contact_time)}</td>
+                        <td data-label="สถานะ" class="status-${e(r.status)}">${statusLabels[r.status] || '-'}</td>
+                    `;
+                    tableBody.appendChild(tr);
+                });
+            }
+        });
+
+        if (!hasData) {
+            const tr = document.createElement('tr');
+            tr.innerHTML = '<td colspan="11" style="text-align:center;">ไม่มีข้อมูล</td>';
+            tableBody.appendChild(tr);
+        }
+
+        // Re-apply filters
+        applyFilters();
+    }
+
+    // Helper: escape HTML
+    function e(v) {
+        const div = document.createElement('div');
+        div.textContent = v || '';
+        return div.innerHTML;
+    }
+
     // ฟังก์ชันหลักในการกรอง/ค้นหาข้อมูล
     function applyFilters() {
         const hospitalFilter = searchInput.value.trim().toLowerCase();
