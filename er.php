@@ -73,8 +73,8 @@ foreach ($zipcodeRows as $zipRow) {
         .container img.bru-img {
             position: absolute;
             top: 32px;
-            left: 220px;
-            width: 95px;
+            left: 200px;
+            width: 85px;
             height: auto;
             opacity: 0.8;
         }
@@ -82,8 +82,8 @@ foreach ($zipcodeRows as $zipRow) {
         .container img.Logo-img {
             position: absolute;
             top: 32px;
-            left: 80px;
-            width: 120px;
+            left: 60px;
+            width: 110px;
             height: auto;
             opacity: 0.8;
         }
@@ -91,7 +91,7 @@ foreach ($zipcodeRows as $zipRow) {
             margin-bottom: 20px;
             color: var(--accent-dark);
             font-weight: 700;
-            font-size: 40px;
+            font-size: 35px;
             text-align: center;
             margin-top: 0;
         }
@@ -99,7 +99,7 @@ foreach ($zipcodeRows as $zipRow) {
         /* Header layout: images on both sides, title centered */
         .page-header { display: flex; align-items: center; justify-content: center; gap: 30px; margin-bottom: 18px; }
         .page-header h2 { text-align: center; margin: 0; flex: 0 1 auto; }
-        .doctor-img, .ambulance-img { max-width: 140px; height: auto; display: block; flex: 0 0 auto; }
+        .doctor-img, .ambulance-img { max-width: 120px; height: auto; display: block; flex: 0 0 auto; }
 
         @media (max-width: 768px) {
             .page-header { gap: 15px; }
@@ -231,7 +231,7 @@ foreach ($zipcodeRows as $zipRow) {
 
         td {
             padding: 15px;
-            font-size: 22px;
+            font-size: 20px;
             border-bottom: 1px solid #f0f0f0;
             background: #fff;
             vertical-align: top;
@@ -256,7 +256,7 @@ foreach ($zipcodeRows as $zipRow) {
             background: rgba(31, 122, 237, 0.1);
             border-radius: 20px;
             display: inline-block;
-            font-size: 27px;
+            font-size: 23px;
         }
        
         .status-2 {
@@ -266,7 +266,7 @@ foreach ($zipcodeRows as $zipRow) {
             background: rgba(243, 156, 18, 0.1);
             border-radius: 20px;
             display: inline-block;
-            font-size: 27px;
+            font-size: 23px;
         }
         .status-3 {
             color: #00a651;
@@ -275,7 +275,7 @@ foreach ($zipcodeRows as $zipRow) {
             background: rgba(0, 166, 81, 0.1);
             border-radius: 20px;
             display: inline-block;
-            font-size: 27px;
+            font-size: 23px;
         }
         
         /* Responsive Design - Horizontal Scroll Table */
