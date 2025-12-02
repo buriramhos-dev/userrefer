@@ -73,33 +73,36 @@ foreach ($zipcodeRows as $zipRow) {
         .container img.bru-img {
             position: absolute;
             top: 32px;
-            left: 200px;
+            left: 100px;
             width: 85px;
             height: auto;
             opacity: 0.8;
+            margin-top: 8px;
         }
         
         .container img.Logo-img {
             position: absolute;
             top: 32px;
-            left: 60px;
+            left: 250px;
             width: 110px;
             height: auto;
             opacity: 0.8;
+            margin-top: 8px;
         }
         h2 {
             margin-bottom: 20px;
             color: var(--accent-dark);
             font-weight: 700;
-            font-size: 35px;
+            font-size: 45px;
             text-align: center;
-            margin-top: 0;
+            
+            
         }
 
         /* Header layout: images on both sides, title centered */
-        .page-header { display: flex; align-items: center; justify-content: center; gap: 30px; margin-bottom: 18px; }
+        .page-header { display: flex; align-items: center; justify-content: center; gap: 30px; margin-bottom: 18px; margin-left: 400px ; }
         .page-header h2 { text-align: center; margin: 0; flex: 0 1 auto; }
-        .doctor-img, .ambulance-img { max-width: 120px; height: auto; display: block; flex: 0 0 auto; }
+        .doctor-img, .ambulance-img { max-width: 120px; height: auto; display: block; flex: 0 0 auto; margin-left: 50px}
 
         @media (max-width: 768px) {
             .page-header { gap: 15px; }
@@ -182,7 +185,7 @@ foreach ($zipcodeRows as $zipRow) {
             padding: 15px;
             font-weight: 600;
             text-align: left;
-            font-size: 20px;
+            font-size: 18px;
             text-transform: uppercase;
             letter-spacing: 0.5px;
         }
@@ -210,6 +213,10 @@ foreach ($zipcodeRows as $zipRow) {
             border-bottom: 2px solid rgba(255, 255, 255, 0.25);
             vertical-align: middle;
             line-height: 1.3;
+            /* allow group header to wrap and remain readable */
+            white-space: normal;
+            overflow: visible;
+            text-overflow: initial;
         }
         tr.group-header.status-group-1 td.group-header-cell {
             background: linear-gradient(135deg, #3e8deeff 0%, #3e8deeff 100%);
@@ -223,7 +230,7 @@ foreach ($zipcodeRows as $zipRow) {
             background: linear-gradient(135deg, #06ba5dff 0%, #06ba5dff 100%);
         }
         .group-count {
-            font-size: 25px;
+            font-size: 20px;
             font-weight: 400;
             opacity: 0.9;
             margin-left: 10px;
@@ -231,11 +238,15 @@ foreach ($zipcodeRows as $zipRow) {
 
         td {
             padding: 15px;
-            font-size: 20px;
+            font-size: 18px;
             border-bottom: 1px solid #f0f0f0;
             background: #fff;
             vertical-align: top;
             transition: all 0.2s ease;
+            overflow: hidden;
+            text-overflow: ellipsis;
+            white-space: nowrap;
+            max-width: 1px; /* let table layout define column width while enabling ellipsis */
         }
 
         tr:last-child td {
@@ -397,6 +408,8 @@ foreach ($zipcodeRows as $zipRow) {
 
             .doctor-img, .ambulance-img {
                 max-width: 100px;
+                
+                
             }
 
             h2 {
@@ -429,13 +442,17 @@ foreach ($zipcodeRows as $zipRow) {
 </head>
 <body>
 <div class="container">
-    <img src="img/bru.png" alt="bru" class="bru-img">
     <img src="img/Logo_of_Buriram_Hospital.png" alt="Logo" class="Logo-img">
+    <img src="img/bru.png" alt="bru" class="bru-img">
+    
     <div class="page-header">
-        <img src="img/doctor.png" alt="doctor" class="doctor-img">
+        
         <h2>ผู้ป่วยรอส่งกลับไปรักษาต่อ
             </h2>
+            <img src="img/doctor.png" alt="doctor" class="doctor-img">
             <img src="img/ambulance.png" alt="ambulance" class="ambulance-img">
+            
+            
     </div>
 
     <div class="toolbar">
@@ -603,8 +620,21 @@ document.addEventListener('DOMContentLoaded', function() {
             tableBody.appendChild(tr);
         }
 
-        // Re-apply filters to the rebuilt table
+        // Set hover titles for truncated cells, then re-apply filters to the rebuilt table
+        setCellTitles();
         applyFilters();
+    }
+
+    // Set `title` attributes on table cells so full text is visible on hover
+    function setCellTitles() {
+        const allTds = tableBody.querySelectorAll('td');
+        allTds.forEach(td => {
+            // skip group header cell
+            if (td.classList && td.classList.contains('group-header-cell')) return;
+            const txt = (td.textContent || td.innerText || '').toString().trim();
+            if (txt) td.setAttribute('title', txt);
+            else td.removeAttribute('title');
+        });
     }
 
     function applyFilters() {
@@ -663,6 +693,8 @@ document.addEventListener('DOMContentLoaded', function() {
 
     searchInput.addEventListener('keyup', applyFilters);
     statusFilter.addEventListener('change', applyFilters);
+    // Ensure initial server-rendered cells get titles
+    setCellTitles();
 });
 </script>
 </body>
