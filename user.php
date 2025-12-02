@@ -94,6 +94,14 @@ foreach ($zipcodeRows as $zipRow) {
             padding: 28px;
             box-shadow: 0 8px 30px rgba(2,6,23,0.06);
         }
+            .container img.bru-img {
+            position: absolute;
+            top: 30px;
+            left: 70px;
+            width: 50px;
+            height: auto;
+            opacity: 0.8;
+        }
 
         h2 {
             margin-bottom: 20px;
@@ -433,6 +441,7 @@ foreach ($zipcodeRows as $zipRow) {
     </style>
 
 <div class="container">
+    <img src="img/bru.png" alt="bru" class="bru-img">
 <div class="page-header">
     <img src="img/doctor.png" alt="doctor" class="doctor-img">
     <h2>ผู้ป่วยรอส่งกลับไปรักษาต่อ</h2>
