@@ -73,7 +73,7 @@ foreach ($zipcodeRows as $zipRow) {
         .container img.bru-img {
             position: absolute;
             top: 32px;
-            left: 150px;
+            left: 130px;
             width: 85px;
             height: auto;
             opacity: 0.8;
@@ -83,7 +83,7 @@ foreach ($zipcodeRows as $zipRow) {
         .container img.Logo-img {
             position: absolute;
             top: 32px;
-            left: 320px;
+            left: 300px;
             width: 110px;
             height: auto;
             opacity: 0.8;
