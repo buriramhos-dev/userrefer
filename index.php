@@ -190,8 +190,8 @@ foreach ($zipcodeRows as $zipRow) {
         }
         .container img.bru-img {
             position: absolute;
-            top: 30px;
-            left: 70px;
+            top: 32px;
+            left: 85px;
             width: 50px;
             height: auto;
             opacity: 0.8;
