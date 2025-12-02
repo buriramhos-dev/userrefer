@@ -63,20 +63,17 @@ foreach ($zipcodeRows as $zipRow) {
         }
 
         .container {
-            /* Single responsive container for all sizes; cap at 3480px for target display */
-            width: 100%;
-            max-width: min(3480px, 95vw);
-            position: relative;
+            max-width: 1400px;
             margin: 0 auto;
             background: var(--panel-bg);
             border-radius: 12px;
-            padding: 28px 40px;
+            padding: 28px;
             box-shadow: 0 8px 30px rgba(2,6,23,0.06);
         }
         .container img.bru-img {
             position: absolute;
             top: 32px;
-            left: 200px;
+            left: 150px;
             width: 85px;
             height: auto;
             opacity: 0.8;
@@ -86,25 +83,26 @@ foreach ($zipcodeRows as $zipRow) {
         .container img.Logo-img {
             position: absolute;
             top: 32px;
-            left: 330px;
+            left: 320px;
             width: 110px;
             height: auto;
             opacity: 0.8;
-            margin-top: 8px;
+            margin-top: 10px;
         }
         h2 {
             margin-bottom: 20px;
             color: var(--accent-dark);
             font-weight: 700;
-            font-size: 35px;
+            font-size: 30px;
             text-align: center;
+            
             
         }
 
         /* Header layout: images on both sides, title centered */
-        .page-header { display: flex; align-items: center; justify-content: center; gap: 30px; margin-bottom: 18px; }
+        .page-header { display: flex; align-items: center; justify-content: center; gap: 30px; margin-bottom: 18px; margin-left: 380px ; }
         .page-header h2 { text-align: center; margin: 0; flex: 0 1 auto; }
-        .doctor-img, .ambulance-img { max-width: 120px; height: auto; display: block; flex: 0 0 auto; margin-left: 50px; margin-right: 140px;}
+        .doctor-img, .ambulance-img { max-width: 120px; height: auto; display: block; flex: 0 0 auto; margin-left: 40px}
 
         @media (max-width: 768px) {
             .page-header { gap: 15px; }
@@ -171,8 +169,14 @@ foreach ($zipcodeRows as $zipRow) {
         }
 
         @keyframes slideUp {
-            from { opacity: 0; transform: translateY(20px); }
-            to   { opacity: 1; transform: translateY(0); }
+            from {
+                opacity: 0;
+                transform: translateY(20px);
+            }
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
         }
 
         th {
@@ -383,20 +387,6 @@ foreach ($zipcodeRows as $zipRow) {
             }
         }
 
-            /* Larger-screen scaling (target big TVs / 4K / 50" displays) */
-            @media (min-width: 3000px) {
-                /* slightly larger base spacing and type for visibility at distance */
-                body { font-size: 18px; }
-                h2 { font-size: clamp(36px, 2.0vw, 80px); }
-                th { font-size: 22px; padding: 24px; }
-                td { font-size: 20px; padding: 20px; }
-                .group-count { font-size: 24px; }
-                .doctor-img, .ambulance-img { max-width: 220px; }
-                .Logo-img, .bru-img { max-width: 280px; }
-                .container { padding: 48px; }
-                .toolbar { gap: 24px; }
-                table { box-shadow: 0 8px 40px rgba(0,0,0,0.08); }
-            }
         @media (max-width: 480px) {
             body {
                 padding: 8px;
