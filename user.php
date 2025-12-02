@@ -94,20 +94,28 @@ foreach ($zipcodeRows as $zipRow) {
             padding: 28px;
             box-shadow: 0 8px 30px rgba(2,6,23,0.06);
         }
-            .container img.bru-img {
+        .container img.bru-img {
             position: absolute;
             top: 32px;
-            left: 85px;
-            width: 50px;
+            left: 220px;
+            width: 95px;
             height: auto;
             opacity: 0.8;
         }
-
+        
+        .container img.Logo-img {
+            position: absolute;
+            top: 32px;
+            left: 80px;
+            width: 120px;
+            height: auto;
+            opacity: 0.8;
+        }
         h2 {
             margin-bottom: 20px;
             color: var(--accent-dark);
             font-weight: 700;
-            font-size: 28px;
+            font-size: 40px;
             text-align: center;
             margin-top: 0;
         }
@@ -442,6 +450,7 @@ foreach ($zipcodeRows as $zipRow) {
 
 <div class="container">
     <img src="img/bru.png" alt="bru" class="bru-img">
+    <img src="img/Logo_of_Buriram_Hospital.png" alt="Logo" class="Logo-img">
 <div class="page-header">
     <img src="img/doctor.png" alt="doctor" class="doctor-img">
     <h2>ผู้ป่วยรอส่งกลับไปรักษาต่อ</h2>

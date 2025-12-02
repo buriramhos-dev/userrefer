@@ -70,20 +70,28 @@ foreach ($zipcodeRows as $zipRow) {
             padding: 28px;
             box-shadow: 0 8px 30px rgba(2,6,23,0.06);
         }
-         .container img.bru-img {
+        .container img.bru-img {
             position: absolute;
             top: 32px;
-            left: 85px;
-            width: 50px;
+            left: 220px;
+            width: 95px;
             height: auto;
             opacity: 0.8;
         }
-
+        
+        .container img.Logo-img {
+            position: absolute;
+            top: 32px;
+            left: 80px;
+            width: 120px;
+            height: auto;
+            opacity: 0.8;
+        }
         h2 {
             margin-bottom: 20px;
             color: var(--accent-dark);
             font-weight: 700;
-            font-size: 28px;
+            font-size: 40px;
             text-align: center;
             margin-top: 0;
         }
@@ -174,7 +182,7 @@ foreach ($zipcodeRows as $zipRow) {
             padding: 15px;
             font-weight: 600;
             text-align: left;
-            font-size: 14px;
+            font-size: 20px;
             text-transform: uppercase;
             letter-spacing: 0.5px;
         }
@@ -195,7 +203,7 @@ foreach ($zipcodeRows as $zipRow) {
         tr.group-header td.group-header-cell {
             background: linear-gradient(135deg, #fda81fff 0%, #fda81fff  100%);
             color: #fff;
-            font-size: 14px;
+            font-size: 25px;
             font-weight: 700;
             padding: 8px 12px;
             text-align: left;
@@ -215,7 +223,7 @@ foreach ($zipcodeRows as $zipRow) {
             background: linear-gradient(135deg, #06ba5dff 0%, #06ba5dff 100%);
         }
         .group-count {
-            font-size: 14px;
+            font-size: 25px;
             font-weight: 400;
             opacity: 0.9;
             margin-left: 10px;
@@ -223,7 +231,7 @@ foreach ($zipcodeRows as $zipRow) {
 
         td {
             padding: 15px;
-            font-size: 14px;
+            font-size: 22px;
             border-bottom: 1px solid #f0f0f0;
             background: #fff;
             vertical-align: top;
@@ -248,7 +256,9 @@ foreach ($zipcodeRows as $zipRow) {
             background: rgba(31, 122, 237, 0.1);
             border-radius: 20px;
             display: inline-block;
+            font-size: 27px;
         }
+       
         .status-2 {
             color: #f39c12;
             font-weight: 600;
@@ -256,6 +266,7 @@ foreach ($zipcodeRows as $zipRow) {
             background: rgba(243, 156, 18, 0.1);
             border-radius: 20px;
             display: inline-block;
+            font-size: 27px;
         }
         .status-3 {
             color: #00a651;
@@ -264,6 +275,7 @@ foreach ($zipcodeRows as $zipRow) {
             background: rgba(0, 166, 81, 0.1);
             border-radius: 20px;
             display: inline-block;
+            font-size: 27px;
         }
         
         /* Responsive Design - Horizontal Scroll Table */
@@ -418,6 +430,7 @@ foreach ($zipcodeRows as $zipRow) {
 <body>
 <div class="container">
     <img src="img/bru.png" alt="bru" class="bru-img">
+    <img src="img/Logo_of_Buriram_Hospital.png" alt="Logo" class="Logo-img">
     <div class="page-header">
         <img src="img/doctor.png" alt="doctor" class="doctor-img">
         <h2>ผู้ป่วยรอส่งกลับไปรักษาต่อ
