@@ -93,7 +93,7 @@ foreach ($zipcodeRows as $zipRow) {
             margin-bottom: 20px;
             color: var(--accent-dark);
             font-weight: 700;
-            font-size: 45px;
+            font-size: 40px;
             text-align: center;
             
             
