@@ -213,10 +213,6 @@ foreach ($zipcodeRows as $zipRow) {
             border-bottom: 2px solid rgba(255, 255, 255, 0.25);
             vertical-align: middle;
             line-height: 1.3;
-            /* allow group header to wrap and remain readable */
-            white-space: normal;
-            overflow: visible;
-            text-overflow: initial;
         }
         tr.group-header.status-group-1 td.group-header-cell {
             background: linear-gradient(135deg, #3e8deeff 0%, #3e8deeff 100%);
@@ -243,10 +239,6 @@ foreach ($zipcodeRows as $zipRow) {
             background: #fff;
             vertical-align: top;
             transition: all 0.2s ease;
-            overflow: hidden;
-            text-overflow: ellipsis;
-            white-space: nowrap;
-            max-width: 1px; /* let table layout define column width while enabling ellipsis */
         }
 
         tr:last-child td {
@@ -386,9 +378,10 @@ foreach ($zipcodeRows as $zipRow) {
                 padding: 4px 6px;
                 font-size: 10px;
                 line-height: 1.0;
-                white-space: nowrap;
-                overflow: hidden;
-                text-overflow: ellipsis;
+                /* don't truncate group header on small screens; allow wrapping */
+                white-space: normal;
+                overflow: visible;
+                text-overflow: initial;
                 border-bottom-width: 1px;
             }
         }
@@ -620,21 +613,8 @@ document.addEventListener('DOMContentLoaded', function() {
             tableBody.appendChild(tr);
         }
 
-        // Set hover titles for truncated cells, then re-apply filters to the rebuilt table
-        setCellTitles();
+        // Re-apply filters to the rebuilt table
         applyFilters();
-    }
-
-    // Set `title` attributes on table cells so full text is visible on hover
-    function setCellTitles() {
-        const allTds = tableBody.querySelectorAll('td');
-        allTds.forEach(td => {
-            // skip group header cell
-            if (td.classList && td.classList.contains('group-header-cell')) return;
-            const txt = (td.textContent || td.innerText || '').toString().trim();
-            if (txt) td.setAttribute('title', txt);
-            else td.removeAttribute('title');
-        });
     }
 
     function applyFilters() {
@@ -693,8 +673,6 @@ document.addEventListener('DOMContentLoaded', function() {
 
     searchInput.addEventListener('keyup', applyFilters);
     statusFilter.addEventListener('change', applyFilters);
-    // Ensure initial server-rendered cells get titles
-    setCellTitles();
 });
 </script>
 </body>
