@@ -194,7 +194,7 @@ foreach ($zipcodeRows as $zipRow) {
             padding: 15px;
             font-weight: 600;
             text-align: left;
-            font-size: 10px;
+            font-size: 20px;
             text-transform: uppercase;
             letter-spacing: 0.5px;
         }
@@ -215,7 +215,7 @@ foreach ($zipcodeRows as $zipRow) {
         tr.group-header td.group-header-cell {
             background: linear-gradient(135deg, #fda81fff 0%, #fda81fff  100%);
             color: #fff;
-            font-size: 10px;
+            font-size: 20px;
             font-weight: 100;
             padding: 8px 12px;
             text-align: left;
@@ -243,7 +243,7 @@ foreach ($zipcodeRows as $zipRow) {
 
         td {
             padding: 15px;
-            font-size: 10px;
+            font-size: 20px;
             font-weight: 600;
             border-bottom: 1px solid #f0f0f0;
             background: #fff;
@@ -269,7 +269,7 @@ foreach ($zipcodeRows as $zipRow) {
             background: rgba(31, 122, 237, 0.1);
             border-radius: 20px;
             display: inline-block;
-            font-size: 18px;
+            font-size: 20px;
         }
        
         .status-2 {
@@ -279,7 +279,7 @@ foreach ($zipcodeRows as $zipRow) {
             background: rgba(243, 156, 18, 0.1);
             border-radius: 20px;
             display: inline-block;
-            font-size: 18px;
+            font-size: 20px;
         }
         .status-3 {
             color: #00a651;
@@ -288,7 +288,7 @@ foreach ($zipcodeRows as $zipRow) {
             background: rgba(0, 166, 81, 0.1);
             border-radius: 20px;
             display: inline-block;
-            font-size: 18px;
+            font-size: 20px;
         }
         
 
