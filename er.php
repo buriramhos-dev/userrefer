@@ -74,7 +74,7 @@ foreach ($zipcodeRows as $zipRow) {
             position: absolute;
             top: 32px;
             left: 70px;
-            width: 85px;
+            width: 80px;
             height: auto;
             opacity: 0.8;
             margin-top: 8px;
@@ -84,7 +84,7 @@ foreach ($zipcodeRows as $zipRow) {
             position: absolute;
             top: 32px;
             left: 200px;
-            width: 110px;
+            width: 100px;
             height: auto;
             opacity: 0.8;
             margin-top: 10px;
@@ -93,7 +93,7 @@ foreach ($zipcodeRows as $zipRow) {
             position: absolute;
             top: 20px;
             right: 250px;
-            width: 120px;
+            width: 110px;
             height: auto;
             opacity: 0.9;
             margin-top: 20px;
@@ -102,7 +102,7 @@ foreach ($zipcodeRows as $zipRow) {
             position: absolute;
             top: 15px;
             right: 70px;
-            width: 130px;
+            width: 110px;
             height: auto;
             opacity: 0.9;
             margin-top: 20px;
@@ -111,7 +111,7 @@ foreach ($zipcodeRows as $zipRow) {
             margin-bottom: 20px;
             color: var(--accent-dark);
             font-weight: 700;
-            font-size: 20px;
+            font-size: 25px;
             text-align: center;
             margin: 50px;
         }
@@ -173,7 +173,7 @@ foreach ($zipcodeRows as $zipRow) {
 
         /* Table */
         table {
-            width: 100%;
+            width: 110%;
             border-collapse: collapse;
             background: white;
             border-radius: 12px;
@@ -297,7 +297,7 @@ foreach ($zipcodeRows as $zipRow) {
         }
         
         /* Responsive Design - Horizontal Scroll Table */
-        @media (max-width: 768px) {
+        @media (max-width: 1000px) {
             body {
                 padding: 10px;
             }
