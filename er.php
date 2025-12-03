@@ -447,6 +447,32 @@ foreach ($zipcodeRows as $zipRow) {
                 line-height: 1.2;
             }
         }
+        /* Targeted block for 3480x2160-ish large displays */
+        @media (min-width: 3400px) and (max-width: 3600px) {
+            /* make the main container fill nicely and center content */
+            .container {
+                max-width: 3480px;
+                padding: 48px 80px;
+            }
+
+            /* logos positioned inside container at sensible offsets */
+            .container img.bru-img { left: 24px; top: 34px; width: 110px; }
+            .container img.Logo-img { left: 150px; top: 30px; width: 140px; }
+            .container img.doctor-img { right: 160px; top: 28px; width: 160px; }
+            .container img.ambulance-img { right: 36px; top: 28px; width: 160px; }
+
+            /* Heading larger and centered without extra margins */
+            .page-header { justify-content: center; }
+            .page-header h2, h2 { font-size: 56px; margin: 10px 0 30px; }
+
+            /* Table sizing and typography for readability at distance */
+            table { width: 100%; margin-top: 2.5rem; }
+            th { font-size: 20px; padding: 18px; }
+            td { font-size: 20px; padding: 16px; }
+
+            /* Slightly larger group header */
+            tr.group-header td.group-header-cell { font-size: 26px; padding: 12px 16px; }
+        }
     </style>
 </head>
 <body>
