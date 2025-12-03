@@ -60,22 +60,23 @@ foreach ($zipcodeRows as $zipRow) {
             .toolbar { gap: 28px; margin-bottom: 40px; }
             #hospitalSearch, #statusFilter { font-size: 32px; padding: 20px 28px; border-radius: 16px; }
             .table-wrapper { overflow-x: auto; -webkit-overflow-scrolling: touch; }
-            table { width: 100%; margin-top: 4rem; table-layout: fixed; border-radius: 20px; min-width: 3480px; font-size: 30px; }
+            /* ลดขนาดและ padding เพื่อให้ข้อมูลพอดีกับทีวี 50" โดยไม่ต้องขึ้นบรรทัดใหม่ */
+            table { width: 100%; margin-top: 3.5rem; table-layout: fixed; border-radius: 20px; min-width: 3200px; font-size: 26px; }
             th, td { white-space: nowrap !important; overflow: hidden; text-overflow: ellipsis; }
-            th { font-size: 32px; padding: 20px 16px; font-weight: 700; }
-            td { font-size: 32px; padding: 16px 16px; font-weight: 600; }
+            th { font-size: 26px; padding: 12px 10px; font-weight: 700; }
+            td { font-size: 26px; padding: 10px 10px; font-weight: 600; }
             th:nth-child(1), td:nth-child(1) { width: 7%; }
             th:nth-child(2), td:nth-child(2) { width: 6%; }
             th:nth-child(3), td:nth-child(3) { width: 7%; }
-            th:nth-child(4), td:nth-child(4) { width: 26%; }
+            th:nth-child(4), td:nth-child(4) { width: 28%; }
             th:nth-child(5), td:nth-child(5) { width: 12%; }
             th:nth-child(6), td:nth-child(6) { width: 12%; }
             th:nth-child(7), td:nth-child(7) { width: 12%; }
             th:nth-child(8), td:nth-child(8) { width: 11%; }
             th:nth-child(9), td:nth-child(9) { width: 13%; }
-            tr.group-header td.group-header-cell { font-size: 48px; padding: 20px 18px; white-space: normal; overflow: visible; }
-            .group-count { font-size: 36px; }
-            .status-1, .status-2, .status-3 { font-size: 28px; padding: 10px 16px; }
+            tr.group-header td.group-header-cell { font-size: 40px; padding: 14px 14px; white-space: normal; overflow: visible; }
+            .group-count { font-size: 28px; }
+            .status-1, .status-2, .status-3 { font-size: 22px; padding: 8px 12px; }
         }
 
         :root{
