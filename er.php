@@ -194,7 +194,7 @@ foreach ($zipcodeRows as $zipRow) {
             padding: 15px;
             font-weight: 600;
             text-align: left;
-            font-size: 20px;
+            font-size: 17px;
             text-transform: uppercase;
             letter-spacing: 0.5px;
         }
@@ -243,7 +243,7 @@ foreach ($zipcodeRows as $zipRow) {
 
         td {
             padding: 15px;
-            font-size: 20px;
+            font-size: 17px;
             font-weight: 600;
             border-bottom: 1px solid #f0f0f0;
             background: #fff;
