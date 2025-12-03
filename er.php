@@ -378,8 +378,8 @@ foreach ($zipcodeRows as $zipRow) {
             /* Table with horizontal scroll */
             table {
                 width: 100%;
-                min-width: 900px;
-                font-size: 20px;
+                min-width: 2000px;
+                font-size: 40px;
 
                 /* removed nested top-level media query (moved to top-level later) */
                 border-collapse: collapse;
