@@ -63,12 +63,14 @@ foreach ($zipcodeRows as $zipRow) {
         }
 
         .container {
-            max-width: 1400px;
+            max-width: 95vw;
+            width: 100%;
             margin: 0 auto;
             background: var(--panel-bg);
             border-radius: 12px;
             padding: 28px;
             box-shadow: 0 8px 30px rgba(2,6,23,0.06);
+            position: relative;
         }
         .container img.bru-img {
             position: absolute;
@@ -449,29 +451,45 @@ foreach ($zipcodeRows as $zipRow) {
         }
         /* Targeted block for 3480x2160-ish large displays */
         @media (min-width: 3000px) {
-            /* make the main container fill nicely and center content */
+            body { padding: 30px; }
+            /* make the main container fill nicely */
             .container {
-                max-width: 3480px;
+                max-width: 95vw;
                 padding: 48px 80px;
+                margin: 0 auto;
             }
 
-            /* logos positioned inside container at sensible offsets */
-            .container img.bru-img { left: 24px; top: 34px; width: 110px; }
-            .container img.Logo-img { left: 150px; top: 30px; width: 140px; }
-            .container img.doctor-img { right: 160px; top: 28px; width: 160px; }
-            .container img.ambulance-img { right: 36px; top: 28px; width: 160px; }
+            /* logos scaled and repositioned for large display */
+            .container img.bru-img { left: 28px; top: 40px; width: 120px; }
+            .container img.Logo-img { left: 160px; top: 36px; width: 150px; }
+            .container img.doctor-img { right: 170px; top: 32px; width: 180px; }
+            .container img.ambulance-img { right: 40px; top: 32px; width: 180px; }
 
-            /* Heading larger and centered without extra margins */
-            .page-header { justify-content: center; }
-            .page-header h2, h2 { font-size: 56px; margin: 10px 0 30px; }
+            /* Heading larger and centered */
+            h2 { font-size: 52px; margin: 60px 0 20px; }
+            
+            /* Toolbar styling */
+            .toolbar { gap: 20px; margin-bottom: 30px; }
+            #hospitalSearch, #statusFilter { font-size: 18px; padding: 14px 18px; }
 
             /* Table sizing and typography for readability at distance */
-            table { width: 100%; margin-top: 2.5rem; }
-            th { font-size: 20px; padding: 18px; }
-            td { font-size: 20px; padding: 16px; }
+            table { width: 100%; margin-top: 3rem; }
+            th { font-size: 20px; padding: 18px; white-space: nowrap; }
+            td { 
+                font-size: 18px; 
+                padding: 14px 16px; 
+                font-weight: 500;
+                white-space: nowrap;
+                overflow: hidden;
+                text-overflow: ellipsis;
+            }
 
-            /* Slightly larger group header */
-            tr.group-header td.group-header-cell { font-size: 26px; padding: 12px 16px; }
+            /* Group header */
+            tr.group-header td.group-header-cell { font-size: 26px; padding: 14px 18px; }
+            .group-count { font-size: 24px; }
+
+            /* Status badges */
+            .status-1, .status-2, .status-3 { font-size: 18px; padding: 6px 12px; }
         }
     </style>
 </head>
