@@ -12,8 +12,8 @@ $allRows = $pdo->query("
     ORDER BY status ASC, date_in DESC, id DESC
 ")->fetchAll();
 
-// Group rows by status
-$groupedRows = [1 => [], 2 => [], 3 => []];
+// Group rows by status (order: 2, 1, 3)
+$groupedRows = [2 => [], 1 => [], 3 => []];
 foreach ($allRows as $row) {
     $status = (int)$row['status'];
     if (isset($groupedRows[$status])) $groupedRows[$status][] = $row;
@@ -61,19 +61,18 @@ foreach ($zipcodeRows as $zipRow) {
             #hospitalSearch, #statusFilter { font-size: 32px; padding: 20px 28px; border-radius: 16px; }
             .table-wrapper { overflow-x: auto; -webkit-overflow-scrolling: touch; }
             /* ลดขนาดและ padding เพื่อให้ข้อมูลพอดีกับทีวี 50" โดยไม่ต้องขึ้นบรรทัดใหม่ */
-            table { width: 100%; margin-top: 3.5rem; table-layout: fixed; border-radius: 20px; min-width: 3200px; font-size: 26px; }
+            table { width: 100%; margin-top: 3.5rem; table-layout: fixed; border-radius: 20px; min-width: 3000px; font-size: 26px; }
             th, td { white-space: nowrap !important; overflow: hidden; text-overflow: ellipsis; }
             th { font-size: 26px; padding: 12px 10px; font-weight: 700; }
             td { font-size: 26px; padding: 10px 10px; font-weight: 600; }
-            th:nth-child(1), td:nth-child(1) { width: 10%; }
-            th:nth-child(2), td:nth-child(2) { width: 6%; }
-            th:nth-child(3), td:nth-child(3) { width: 13%; }
-            th:nth-child(4), td:nth-child(4) { width: 28%; }
-            th:nth-child(5), td:nth-child(5) { width: 28%; }
-            th:nth-child(6), td:nth-child(6) { width: 12%; }
-            th:nth-child(7), td:nth-child(7) { width: 15%; }
-            th:nth-child(8), td:nth-child(8) { width: 11%; }
-            th:nth-child(9), td:nth-child(9) { width: 150%; }
+            th:nth-child(1), td:nth-child(1) { width: 12%; }
+            th:nth-child(2), td:nth-child(2) { width: 10%; }
+            th:nth-child(3), td:nth-child(3) { width: 28%; }
+            th:nth-child(4), td:nth-child(4) { width: 15%; }
+            th:nth-child(5), td:nth-child(5) { width: 13%; }
+            th:nth-child(6), td:nth-child(6) { width: 13%; }
+            th:nth-child(7), td:nth-child(7) { width: 12%; }
+            th:nth-child(8), td:nth-child(8) { width: 12%; }
             tr.group-header td.group-header-cell { font-size: 40px; padding: 14px 14px; white-space: normal; overflow: visible; }
             .group-count { font-size: 28px; }
             .status-1, .status-2, .status-3 { font-size: 22px; padding: 8px 12px; }
@@ -152,9 +151,6 @@ foreach ($zipcodeRows as $zipRow) {
             text-align: center;
             margin: 50px;
         }
-
-        
-
 
         /* Toolbar */
         .toolbar {
@@ -290,8 +286,6 @@ foreach ($zipcodeRows as $zipRow) {
             display: inline-block;
             font-size: 20px;
         }
-        
-
 
     </style>
 </head>
@@ -305,15 +299,12 @@ foreach ($zipcodeRows as $zipRow) {
         <h2>ผู้ป่วยรอส่งกลับไปรักษาต่อ
             </h2>   
     </div>
-    
-
 
     <div class="table-wrapper">
     <table>
         <thead>
             <tr>
                 <th>วันที่</th>
-                <th>เพศ</th>
                 <th>ตึก</th>
                 <th>โรงพยาบาล</th>
                 <th>อุปกรณ์ที่ใช้</th>
@@ -331,7 +322,7 @@ foreach ($zipcodeRows as $zipRow) {
                 $hasData = true;
                 ?>
                 <tr class="group-header status-group-<?= $status ?>" data-group-status="<?= $status ?>">
-                    <td colspan="9" class="group-header-cell">
+                    <td colspan="8" class="group-header-cell">
                         <strong>กลุ่มที่ <?= $status ?>: <?= $statusLabels[$status] ?></strong>
                         <span class="group-count">(<?= count($rows) ?> รายการ)</span>
                     </td>
@@ -340,7 +331,6 @@ foreach ($zipcodeRows as $zipRow) {
                 foreach ($rows as $r): ?>
                     <tr data-status="<?= e($r['status']) ?>">
                         <td data-label="DATE"><?= e($r['date_in']) ?></td>
-                        <td data-label="GENDER"><?= ($r['gender'] === 'M') ? 'ชาย' : (($r['gender'] === 'F') ? 'หญิง' : '-') ?></td>
                         <td data-label="WARD"><?= e($r['ward']) ?></td>
                         <td data-label="HOSPITAL"><?= e($r['hospital']) ?></td>
                         <td data-label="O2/ETT/ICD"><?= e($r['o2_ett_icd']) ?></td>
@@ -353,7 +343,7 @@ foreach ($zipcodeRows as $zipRow) {
             }
         }
         if (!$hasData): ?>
-            <tr><td colspan="9" style="text-align:center;">ไม่มีข้อมูล</td></tr>
+            <tr><td colspan="8" style="text-align:center;">ไม่มีข้อมูล</td></tr>
         <?php endif; ?>
         </tbody>
     </table>
@@ -380,7 +370,7 @@ document.addEventListener('DOMContentLoaded', function() {
     const searchInput = document.getElementById('hospitalSearch');
     const statusFilter = document.getElementById('statusFilter');
     const tableBody = document.getElementById('dataTableBody');
-    const hospitalColumnIndex = 3; // date(0), gender(1), ward(2), hospital(3)
+    const hospitalColumnIndex = 2; // date(0), ward(1), hospital(2)
 
     // *** Auto-refresh Polling (3 seconds) ***
     let lastDataHash = null;
@@ -408,9 +398,9 @@ document.addEventListener('DOMContentLoaded', function() {
         return div.innerHTML;
     }
 
-    // Function: rebuild table from API data (tailored for er.php columns)
+    // Function: rebuild table from API data (tailored for er.php columns - without gender)
     function rebuildTableFromData(allRows) {
-        const groupedRows = { 1: [], 2: [], 3: [] };
+        const groupedRows = { 2: [], 1: [], 3: [] };
         allRows.forEach(row => {
             const status = parseInt(row.status);
             if (groupedRows[status]) groupedRows[status].push(row);
@@ -431,7 +421,7 @@ document.addEventListener('DOMContentLoaded', function() {
                 const headerTr = document.createElement('tr');
                 headerTr.className = `group-header status-group-${status}`;
                 headerTr.setAttribute('data-group-status', status);
-                headerTr.innerHTML = `<td colspan="9" class="group-header-cell">
+                headerTr.innerHTML = `<td colspan="8" class="group-header-cell">
                     <strong>กลุ่มที่ ${status}: ${statusLabels[status]}</strong>
                     <span class="group-count">(${rows.length} รายการ)</span>
                 </td>`;
@@ -440,10 +430,8 @@ document.addEventListener('DOMContentLoaded', function() {
                 rows.forEach(r => {
                     const tr = document.createElement('tr');
                     tr.setAttribute('data-status', r.status);
-                    const genderText = r.gender === 'M' ? 'ชาย' : (r.gender === 'F' ? 'หญิง' : '-');
                     tr.innerHTML = `
                         <td data-label="DATE">${e(r.date_in)}</td>
-                        <td data-label="GENDER">${genderText}</td>
                         <td data-label="WARD">${e(r.ward)}</td>
                         <td data-label="HOSPITAL">${e(r.hospital)}</td>
                         <td data-label="O2/ETT/ICD">${e(r.o2_ett_icd)}</td>
@@ -459,7 +447,7 @@ document.addEventListener('DOMContentLoaded', function() {
 
         if (!hasData) {
             const tr = document.createElement('tr');
-            tr.innerHTML = '<td colspan="9" style="text-align:center;">ไม่มีข้อมูล</td>';
+            tr.innerHTML = '<td colspan="8" style="text-align:center;">ไม่มีข้อมูล</td>';
             tableBody.appendChild(tr);
         }
 
@@ -479,7 +467,7 @@ document.addEventListener('DOMContentLoaded', function() {
             if (row.classList.contains('group-header')) return; // skip headers for now
 
             // If this row is not a normal data row (e.g. placeholder), show it
-            if (row.children.length < 9) { row.style.display = ''; return; }
+            if (row.children.length < 8) { row.style.display = ''; return; }
 
             const hospitalCell = row.getElementsByTagName('td')[hospitalColumnIndex];
             const rowStatus = row.getAttribute('data-status');
