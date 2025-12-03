@@ -65,15 +65,15 @@ foreach ($zipcodeRows as $zipRow) {
             th, td { white-space: nowrap !important; overflow: hidden; text-overflow: ellipsis; }
             th { font-size: 26px; padding: 12px 10px; font-weight: 700; }
             td { font-size: 26px; padding: 10px 10px; font-weight: 600; }
-            th:nth-child(1), td:nth-child(1) { width: 7%; }
+            th:nth-child(1), td:nth-child(1) { width: 10%; }
             th:nth-child(2), td:nth-child(2) { width: 6%; }
-            th:nth-child(3), td:nth-child(3) { width: 7%; }
+            th:nth-child(3), td:nth-child(3) { width: 13%; }
             th:nth-child(4), td:nth-child(4) { width: 28%; }
-            th:nth-child(5), td:nth-child(5) { width: 12%; }
+            th:nth-child(5), td:nth-child(5) { width: 28%; }
             th:nth-child(6), td:nth-child(6) { width: 12%; }
-            th:nth-child(7), td:nth-child(7) { width: 12%; }
+            th:nth-child(7), td:nth-child(7) { width: 15%; }
             th:nth-child(8), td:nth-child(8) { width: 11%; }
-            th:nth-child(9), td:nth-child(9) { width: 13%; }
+            th:nth-child(9), td:nth-child(9) { width: 150%; }
             tr.group-header td.group-header-cell { font-size: 40px; padding: 14px 14px; white-space: normal; overflow: visible; }
             .group-count { font-size: 28px; }
             .status-1, .status-2, .status-3 { font-size: 22px; padding: 8px 12px; }
@@ -120,7 +120,7 @@ foreach ($zipcodeRows as $zipRow) {
         .container img.Logo-img {
             position: absolute;
             top: 32px;
-            left: 200px;
+            left: 180px;
             width: 70px;
             height: auto;
             opacity: 0.8;
@@ -178,34 +178,7 @@ foreach ($zipcodeRows as $zipRow) {
             display: flex;
             align-items: center;
             justify-content: flex-start;
-            gap: 15px;
             flex-wrap: wrap;
-        }
-        
-        /* ช่องค้นหาและ Dropdown */
-        #hospitalSearch, #statusFilter {
-            padding: 12px 16px;
-            border: 2px solid #e0e0e0;
-            border-radius: 10px;
-            font-size: 14px;
-            box-shadow: 0 2px 8px rgba(0,0,0,0.08);
-            transition: all 0.3s ease;
-            background: white;
-            font-family: "Prompt", Arial, sans-serif;
-        }
-
-        /* suggestion box removed - plain search input now */
-
-        #hospitalSearch:focus, #statusFilter:focus {
-            outline: none;
-            border-color: var(--accent);
-            box-shadow: 0 6px 18px rgba(45,155,247,0.12);
-            transform: translateY(-1px);
-        }
-
-        #statusFilter {
-            min-width: 200px;
-            cursor: pointer;
         }
 
         /* Table */
@@ -237,7 +210,7 @@ foreach ($zipcodeRows as $zipRow) {
             padding: 15px;
             font-weight: 600;
             text-align: left;
-            font-size: 18px;
+            font-size: 10px;
             text-transform: uppercase;
             letter-spacing: 0.5px;
         }
@@ -258,8 +231,8 @@ foreach ($zipcodeRows as $zipRow) {
         tr.group-header td.group-header-cell {
             background: linear-gradient(135deg, #fda81fff 0%, #fda81fff  100%);
             color: #fff;
-            font-size: 20px;
-            font-weight: 700;
+            font-size: 10px;
+            font-weight: 100;
             padding: 8px 12px;
             text-align: left;
             border-bottom: 2px solid rgba(255, 255, 255, 0.25);
@@ -378,7 +351,8 @@ foreach ($zipcodeRows as $zipRow) {
             /* Table with horizontal scroll */
             table {
                 width: auto 100%;
-                min-width: auto 100%;
+                min-width: 1100px; /* ensure table is wide enough for all columns */
+                margin-top: 2.5rem;
                 font-size: 20px;
                 /* removed nested top-level media query (moved to top-level later) */
                 border-collapse: collapse;
@@ -527,7 +501,7 @@ foreach ($zipcodeRows as $zipRow) {
             }
 
             th { 
-                font-size: 20px; 
+                font-size: 28px; 
                 padding: 14px 10px;
                 font-weight: 700;
             }
@@ -540,7 +514,7 @@ foreach ($zipcodeRows as $zipRow) {
             }
 
             /* Define column widths for 9-column layout (percentages tuned for wide screens) */
-            th:nth-child(1), td:nth-child(1) { width: 10%; }  /* วันที่ */
+            th:nth-child(1), td:nth-child(1) { width: 15%; }  /* วันที่ */
             th:nth-child(2), td:nth-child(2) { width: 7%; }   /* เพศ */
             th:nth-child(3), td:nth-child(3) { width: 8%; }   /* ตึก */
             th:nth-child(4), td:nth-child(4) { width: 23%; }  /* โรงพยาบาล (widest) */
