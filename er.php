@@ -472,24 +472,39 @@ foreach ($zipcodeRows as $zipRow) {
             .toolbar { gap: 20px; margin-bottom: 30px; }
             #hospitalSearch, #statusFilter { font-size: 18px; padding: 14px 18px; }
 
-            /* Table sizing and typography for readability at distance */
-            table { width: 100%; margin-top: 3rem; }
-            th { font-size: 20px; padding: 18px; white-space: nowrap; }
-            td { 
+            /* Table with fixed layout to prevent text wrapping */
+            table { 
+                width: 100%; 
+                margin-top: 3rem;
+                table-layout: fixed;
+                border-collapse: collapse;
+            }
+            th { 
                 font-size: 18px; 
-                padding: 14px 16px; 
+                padding: 14px 10px;
+                white-space: nowrap;
+                overflow: hidden;
+            }
+            td { 
+                font-size: 16px; 
+                padding: 10px 8px;
                 font-weight: 500;
                 white-space: nowrap;
                 overflow: hidden;
-                text-overflow: ellipsis;
+                word-break: break-word;
             }
 
-            /* Group header */
-            tr.group-header td.group-header-cell { font-size: 26px; padding: 14px 18px; }
-            .group-count { font-size: 24px; }
+            /* Group header - allow to wrap but keep readable */
+            tr.group-header td.group-header-cell { 
+                font-size: 24px; 
+                padding: 12px 10px;
+                white-space: normal;
+                overflow: visible;
+            }
+            .group-count { font-size: 22px; }
 
             /* Status badges */
-            .status-1, .status-2, .status-3 { font-size: 18px; padding: 6px 12px; }
+            .status-1, .status-2, .status-3 { font-size: 16px; padding: 4px 8px; }
         }
     </style>
 </head>
