@@ -73,25 +73,25 @@ foreach ($zipcodeRows as $zipRow) {
         .container img.bru-img {
             position: absolute;
             top: 32px;
-            left: 70px;
+            left: 80px;
             width: 80px;
             height: auto;
             opacity: 0.8;
-            margin-top: 8px;
+            margin-top: 20px;
         }
         
         .container img.Logo-img {
             position: absolute;
             top: 32px;
-            left: 200px;
+            left: 220px;
             width: 100px;
             height: auto;
             opacity: 0.8;
-            margin-top: 10px;
+            margin-top: 20px;
         }
         .container img.doctor-img {
             position: absolute;
-            top: 20px;
+            top: 30px;
             right: 250px;
             width: 110px;
             height: auto;
@@ -100,8 +100,8 @@ foreach ($zipcodeRows as $zipRow) {
         }
         .container img.ambulance-img {
             position: absolute;
-            top: 15px;
-            right: 70px;
+            top: 30px;
+            right: 80px;
             width: 110px;
             height: auto;
             opacity: 0.9;
@@ -173,13 +173,14 @@ foreach ($zipcodeRows as $zipRow) {
 
         /* Table */
         table {
-            width: 110%;
+            width: 120%;
             border-collapse: collapse;
             background: white;
             border-radius: 12px;
             overflow: hidden;
             box-shadow: 0 4px 20px rgba(0,0,0,0.1);
             animation: slideUp 0.5s ease;
+            margin-top: 4rem;
         }
 
         @keyframes slideUp {
@@ -199,7 +200,7 @@ foreach ($zipcodeRows as $zipRow) {
             padding: 15px;
             font-weight: 600;
             text-align: left;
-            font-size: 16px;
+            font-size: 18px;
             text-transform: uppercase;
             letter-spacing: 0.5px;
         }
@@ -248,7 +249,7 @@ foreach ($zipcodeRows as $zipRow) {
 
         td {
             padding: 15px;
-            font-size: 16px;
+            font-size: 18px;
             font-weight: 600;
             border-bottom: 1px solid #f0f0f0;
             background: #fff;
@@ -309,7 +310,7 @@ foreach ($zipcodeRows as $zipRow) {
             }
 
             h2 {
-                font-size: 22px;
+                font-size: 25px;
                 margin-bottom: 15px;
             }
             
@@ -421,7 +422,7 @@ foreach ($zipcodeRows as $zipRow) {
             }
 
             h2 {
-                font-size: 18px;
+                font-size: 25px;
                 margin-bottom: 12px;
             }
 
@@ -460,15 +461,6 @@ foreach ($zipcodeRows as $zipRow) {
     </div>
     
 
-    <div class="toolbar">
-        <select id="statusFilter">
-            <option value="">-- กรองตามสถานะทั้งหมด --</option>
-            <option value="1">รอรถเข้ารับ</option>
-            <option value="2">รถกำลังมารับ</option>
-            <option value="3">บุรีรัมย์ไปส่ง</option>
-        </select>
-        <input type="text" id="hospitalSearch" placeholder="🔍 ค้นหาชื่อโรงพยาบาลหรือรหัส">
-    </div>
 
     <div class="table-wrapper">
     <table>
