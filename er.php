@@ -415,8 +415,11 @@ document.addEventListener('DOMContentLoaded', function() {
         tableBody.innerHTML = '';
         let hasData = false;
 
-        Object.entries(groupedRows).forEach(([status, rows]) => {
-            if (rows.length > 0) {
+        // CRITICAL: Loop through in order [2, 1, 3] to ensure group 2 appears first
+        // This explicit array iteration fixes Object.entries() non-deterministic ordering
+        [2, 1, 3].forEach(status => {
+            const rows = groupedRows[status];
+            if (rows && rows.length > 0) {
                 hasData = true;
                 const headerTr = document.createElement('tr');
                 headerTr.className = `group-header status-group-${status}`;
