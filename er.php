@@ -480,19 +480,30 @@ foreach ($zipcodeRows as $zipRow) {
                 border-collapse: collapse;
             }
             th { 
-                font-size: 18px; 
-                padding: 14px 10px;
+                font-size: 16px; 
+                padding: 12px 8px;
                 white-space: nowrap;
                 overflow: hidden;
             }
             td { 
-                font-size: 16px; 
-                padding: 10px 8px;
+                font-size: 14px; 
+                padding: 8px 6px;
                 font-weight: 500;
                 white-space: nowrap;
                 overflow: hidden;
                 word-break: break-word;
             }
+
+            /* Define column widths for 9-column layout */
+            th:nth-child(1), td:nth-child(1) { width: 11%; }  /* วันที่ */
+            th:nth-child(2), td:nth-child(2) { width: 8%; }   /* เพศ */
+            th:nth-child(3), td:nth-child(3) { width: 9%; }   /* ตึก */
+            th:nth-child(4), td:nth-child(4) { width: 18%; }  /* โรงพยาบาล (widest) */
+            th:nth-child(5), td:nth-child(5) { width: 14%; }  /* อุปกรณ์ที่ใช้ */
+            th:nth-child(6), td:nth-child(6) { width: 12%; }  /* พันธมิตร */
+            th:nth-child(7), td:nth-child(7) { width: 10%; }  /* หมายเหตุ */
+            th:nth-child(8), td:nth-child(8) { width: 10%; }  /* เวลาประสาน */
+            th:nth-child(9), td:nth-child(9) { width: 8%; }   /* สถานะ */
 
             /* Group header - allow to wrap but keep readable */
             tr.group-header td.group-header-cell { 
