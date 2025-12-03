@@ -173,7 +173,7 @@ foreach ($zipcodeRows as $zipRow) {
 
         /* Table */
         table {
-            width: 120%;
+            width: 100%;
             border-collapse: collapse;
             background: white;
             border-radius: 12px;
@@ -448,7 +448,7 @@ foreach ($zipcodeRows as $zipRow) {
             }
         }
         /* Targeted block for 3480x2160-ish large displays */
-        @media (min-width: 3400px) and (max-width: 3600px) {
+        @media (min-width: 3000px) {
             /* make the main container fill nicely and center content */
             .container {
                 max-width: 3480px;
