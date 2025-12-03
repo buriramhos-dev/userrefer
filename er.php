@@ -43,6 +43,40 @@ foreach ($zipcodeRows as $zipRow) {
         * {
             box-sizing: border-box;
         }
+        /* Top-level media query for ultra-wide displays (>= 3400px) */
+        @media (min-width: 3400px) {
+            body { padding: 40px 0; font-size: 28px; }
+            .container {
+                max-width: none;
+                width: 100%;
+                padding: 60px 12px; /* tighter side padding so table has more room */
+                border-radius: 20px;
+            }
+            .container img.bru-img { left: 48px; top: 48px; width: 180px; }
+            .container img.Logo-img { left: 280px; top: 48px; width: 220px; }
+            .container img.doctor-img { right: 280px; top: 48px; width: 260px; }
+            .container img.ambulance-img { right: 48px; top: 48px; width: 260px; }
+            h2 { font-size: 72px; margin: 56px 0 24px; text-align: center; }
+            .toolbar { gap: 28px; margin-bottom: 40px; }
+            #hospitalSearch, #statusFilter { font-size: 32px; padding: 20px 28px; border-radius: 16px; }
+            .table-wrapper { overflow-x: auto; -webkit-overflow-scrolling: touch; }
+            table { width: 100%; margin-top: 4rem; table-layout: fixed; border-radius: 20px; min-width: 3480px; font-size: 30px; }
+            th, td { white-space: nowrap !important; overflow: hidden; text-overflow: ellipsis; }
+            th { font-size: 32px; padding: 20px 16px; font-weight: 700; }
+            td { font-size: 32px; padding: 16px 16px; font-weight: 600; }
+            th:nth-child(1), td:nth-child(1) { width: 7%; }
+            th:nth-child(2), td:nth-child(2) { width: 6%; }
+            th:nth-child(3), td:nth-child(3) { width: 7%; }
+            th:nth-child(4), td:nth-child(4) { width: 26%; }
+            th:nth-child(5), td:nth-child(5) { width: 12%; }
+            th:nth-child(6), td:nth-child(6) { width: 12%; }
+            th:nth-child(7), td:nth-child(7) { width: 12%; }
+            th:nth-child(8), td:nth-child(8) { width: 11%; }
+            th:nth-child(9), td:nth-child(9) { width: 13%; }
+            tr.group-header td.group-header-cell { font-size: 48px; padding: 20px 18px; white-space: normal; overflow: visible; }
+            .group-count { font-size: 36px; }
+            .status-1, .status-2, .status-3 { font-size: 28px; padding: 10px 16px; }
+        }
 
         :root{
             --page-bg: #d8eefe; /* requested background color */
@@ -346,87 +380,7 @@ foreach ($zipcodeRows as $zipRow) {
                 min-width: 900px;
                 font-size: 20px;
 
-                /* เพิ่ม media query สำหรับจอ 3480px ขึ้นไป (4K UHD+) */
-                @media (min-width: 3400px) {
-                    body { padding: 40px 0; font-size: 28px; }
-                    /* ให้ container กินพื้นที่เต็มหน้าจอ (ลด margin ซ้าย/ขวา) เพื่อให้ตารางกว้างขึ้น */
-                    .container {
-                        max-width: none;
-                        width: 100%;
-                        padding: 60px 40px;
-                        border-radius: 20px;
-                    }
-                    /* ปรับตำแหน่ง/ขนาดรูปให้ไม่บังพื้นที่ตาราง */
-                    .container img.bru-img { left: 48px; top: 48px; width: 180px; }
-                    .container img.Logo-img { left: 280px; top: 48px; width: 220px; }
-                    .container img.doctor-img { right: 280px; top: 48px; width: 260px; }
-                    .container img.ambulance-img { right: 48px; top: 48px; width: 260px; }
-                    h2 {
-                        font-size: 72px;
-                        margin: 56px 0 24px;
-                        text-align: center;
-                    }
-                    .toolbar {
-                        gap: 28px;
-                        margin-bottom: 40px;
-                    }
-                    #hospitalSearch, #statusFilter {
-                        font-size: 32px;
-                        padding: 20px 28px;
-                        border-radius: 16px;
-                    }
-                    /* เปิดการเลื่อนแนวนอนเมื่อความกว้างตารางเกินหน้าจอ */
-                    .table-wrapper {
-                        overflow-x: auto;
-                        -webkit-overflow-scrolling: touch;
-                    }
-                    /* ให้ตารางมีความกว้างขั้นต่ำกว้างพอสำหรับความละเอียด 3480 */
-                    table {
-                        width: 100%;
-                        margin-top: 4rem;
-                        table-layout: fixed;
-                        border-radius: 20px;
-                        min-width: 3480px; /* กำหนดให้พอดีกับความกว้างหน้าจอ 3480 */
-                        font-size: 30px;
-                    }
-                    /* บังคับไม่ให้ข้อความขึ้นบรรทัดใหม่ */
-                    th, td {
-                        white-space: nowrap;
-                        overflow: hidden;
-                        text-overflow: ellipsis;
-                    }
-                    th {
-                        font-size: 32px;
-                        padding: 20px 16px;
-                        font-weight: 700;
-                    }
-                    /* ลด padding ซ้าย/ขวา เพื่อให้ตารางมีพื้นที่เพิ่มขึ้น */
-                        font-size: 32px;
-                        padding: 16px 16px;
-                        font-weight: 600;
-                        padding: 60px 12px;
-                    /* Column widths tuned for ultra-wide displays */
-                    th:nth-child(1), td:nth-child(1) { width: 7%; }
-                    th:nth-child(2), td:nth-child(2) { width: 6%; }
-                    th:nth-child(3), td:nth-child(3) { width: 7%; }
-                    th:nth-child(4), td:nth-child(4) { width: 26%; }
-                    th:nth-child(5), td:nth-child(5) { width: 12%; }
-                    th:nth-child(6), td:nth-child(6) { width: 12%; }
-                    th:nth-child(7), td:nth-child(7) { width: 12%; }
-                    th:nth-child(8), td:nth-child(8) { width: 11%; }
-                    th:nth-child(9), td:nth-child(9) { width: 13%; }
-                    tr.group-header td.group-header-cell {
-                        font-size: 48px;
-                        padding: 20px 18px;
-                        white-space: normal;
-                        overflow: visible;
-                    }
-                    .group-count { font-size: 36px; }
-                    .status-1, .status-2, .status-3 {
-                        font-size: 28px;
-                        padding: 10px 16px;
-                    }
-                }
+                /* removed nested top-level media query (moved to top-level later) */
                 border-collapse: collapse;
             }
 
