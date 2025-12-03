@@ -73,17 +73,17 @@ foreach ($zipcodeRows as $zipRow) {
         .container img.bru-img {
             position: absolute;
             top: 32px;
-            left: 80px;
+            left: 70px;
             width: 80px;
             height: auto;
             opacity: 0.8;
             margin-top: 20px;
         }
-        
+      
         .container img.Logo-img {
             position: absolute;
             top: 32px;
-            left: 220px;
+            left: 200px;
             width: 100px;
             height: auto;
             opacity: 0.8;
@@ -92,7 +92,7 @@ foreach ($zipcodeRows as $zipRow) {
         .container img.doctor-img {
             position: absolute;
             top: 30px;
-            right: 250px;
+            right: 200px;
             width: 110px;
             height: auto;
             opacity: 0.9;
@@ -101,7 +101,7 @@ foreach ($zipcodeRows as $zipRow) {
         .container img.ambulance-img {
             position: absolute;
             top: 30px;
-            right: 80px;
+            right: 70px;
             width: 110px;
             height: auto;
             opacity: 0.9;
@@ -249,7 +249,7 @@ foreach ($zipcodeRows as $zipRow) {
 
         td {
             padding: 15px;
-            font-size: 18px;
+            font-size: 22px;
             font-weight: 600;
             border-bottom: 1px solid #f0f0f0;
             background: #fff;
@@ -275,7 +275,7 @@ foreach ($zipcodeRows as $zipRow) {
             background: rgba(31, 122, 237, 0.1);
             border-radius: 20px;
             display: inline-block;
-            font-size: 20px;
+            font-size: 22px;
         }
        
         .status-2 {
@@ -285,7 +285,7 @@ foreach ($zipcodeRows as $zipRow) {
             background: rgba(243, 156, 18, 0.1);
             border-radius: 20px;
             display: inline-block;
-            font-size: 20px;
+            font-size: 22px;
         }
         .status-3 {
             color: #00a651;
@@ -294,7 +294,7 @@ foreach ($zipcodeRows as $zipRow) {
             background: rgba(0, 166, 81, 0.1);
             border-radius: 20px;
             display: inline-block;
-            font-size: 20px;
+            font-size: 22px;
         }
         
         /* Responsive Design - Horizontal Scroll Table */
@@ -342,7 +342,7 @@ foreach ($zipcodeRows as $zipRow) {
             table {
                 width: 100%;
                 min-width: 900px;
-                font-size: 12px;
+                font-size: 20px;
                 border-collapse: collapse;
             }
 
@@ -361,7 +361,7 @@ foreach ($zipcodeRows as $zipRow) {
             th, td {
                 display: table-cell;
                 padding: 10px 8px;
-                font-size: 11px;
+                font-size: 20px;
                 text-align: left;
             }
 
@@ -392,7 +392,7 @@ foreach ($zipcodeRows as $zipRow) {
 
             tr.group-header td.group-header-cell {
                 padding: 4px 6px;
-                font-size: 10px;
+                font-size: 20px;
                 line-height: 1.0;
                 /* don't truncate group header on small screens; allow wrapping */
                 white-space: normal;
