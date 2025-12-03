@@ -449,12 +449,12 @@ foreach ($zipcodeRows as $zipRow) {
                 line-height: 1.2;
             }
         }
-        /* Targeted block for 3480x2160-ish large displays */
-        @media (min-width: 3000px) {
+        /* Targeted block for very large displays (wide/4K/50") */
+        @media (min-width: 2000px) {
             body { padding: 30px; }
             /* make the main container fill nicely */
             .container {
-                max-width: 95vw;
+                max-width: 98vw;
                 padding: 48px 80px;
                 margin: 0 auto;
             }
@@ -466,56 +466,64 @@ foreach ($zipcodeRows as $zipRow) {
             .container img.ambulance-img { right: 40px; top: 32px; width: 180px; }
 
             /* Heading larger and centered */
-            h2 { font-size: 52px; margin: 60px 0 20px; }
+            h2 { font-size: 48px; margin: 40px 0 20px; }
             
             /* Toolbar styling */
             .toolbar { gap: 20px; margin-bottom: 30px; }
             #hospitalSearch, #statusFilter { font-size: 18px; padding: 14px 18px; }
 
             /* Table with fixed layout to prevent text wrapping */
+            .table-wrapper { overflow-x: visible; }
             table { 
                 width: 100%; 
-                margin-top: 3rem;
+                margin-top: 2.5rem;
                 table-layout: fixed;
                 border-collapse: collapse;
+                min-width: 0; /* allow columns to distribute based on percentages */
             }
+
+            /* Ensure header and cells never wrap; use ellipsis for overflow */
+            th, td {
+                white-space: nowrap;
+                overflow: hidden;
+                text-overflow: ellipsis;
+            }
+
             th { 
-                font-size: 16px; 
-                padding: 12px 8px;
-                white-space: nowrap;
-                overflow: hidden;
+                font-size: 20px; 
+                padding: 14px 10px;
+                font-weight: 700;
             }
+
             td { 
-                font-size: 14px; 
-                padding: 8px 6px;
-                font-weight: 500;
-                white-space: nowrap;
-                overflow: hidden;
-                word-break: break-word;
+                font-size: 28px; 
+                padding: 12px 10px;
+                font-weight: 600;
+                word-break: normal; /* prevent breaking words onto next line */
             }
 
-            /* Define column widths for 9-column layout */
-            th:nth-child(1), td:nth-child(1) { width: 11%; }  /* วันที่ */
-            th:nth-child(2), td:nth-child(2) { width: 8%; }   /* เพศ */
-            th:nth-child(3), td:nth-child(3) { width: 9%; }   /* ตึก */
-            th:nth-child(4), td:nth-child(4) { width: 18%; }  /* โรงพยาบาล (widest) */
-            th:nth-child(5), td:nth-child(5) { width: 14%; }  /* อุปกรณ์ที่ใช้ */
+            /* Define column widths for 9-column layout (percentages tuned for wide screens) */
+            th:nth-child(1), td:nth-child(1) { width: 10%; }  /* วันที่ */
+            th:nth-child(2), td:nth-child(2) { width: 7%; }   /* เพศ */
+            th:nth-child(3), td:nth-child(3) { width: 8%; }   /* ตึก */
+            th:nth-child(4), td:nth-child(4) { width: 23%; }  /* โรงพยาบาล (widest) */
+            th:nth-child(5), td:nth-child(5) { width: 13%; }  /* อุปกรณ์ที่ใช้ */
             th:nth-child(6), td:nth-child(6) { width: 12%; }  /* พันธมิตร */
-            th:nth-child(7), td:nth-child(7) { width: 10%; }  /* หมายเหตุ */
-            th:nth-child(8), td:nth-child(8) { width: 10%; }  /* เวลาประสาน */
-            th:nth-child(9), td:nth-child(9) { width: 8%; }   /* สถานะ */
+            th:nth-child(7), td:nth-child(7) { width: 12%; }  /* หมายเหตุ */
+            th:nth-child(8), td:nth-child(8) { width: 8%; }   /* เวลาประสาน */
+            th:nth-child(9), td:nth-child(9) { width: 7%; }   /* สถานะ */
 
-            /* Group header - allow to wrap but keep readable */
+            /* Group header - keep readable (can wrap if necessary) */
             tr.group-header td.group-header-cell { 
-                font-size: 24px; 
-                padding: 12px 10px;
+                font-size: 30px; 
+                padding: 14px 12px;
                 white-space: normal;
                 overflow: visible;
             }
-            .group-count { font-size: 22px; }
+            .group-count { font-size: 24px; }
 
             /* Status badges */
-            .status-1, .status-2, .status-3 { font-size: 16px; padding: 4px 8px; }
+            .status-1, .status-2, .status-3 { font-size: 20px; padding: 6px 10px; }
         }
     </style>
 </head>
