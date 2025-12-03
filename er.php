@@ -355,7 +355,7 @@ foreach ($zipcodeRows as $zipRow) {
             .toolbar {
                 flex-direction: column;
                 align-items: stretch;
-                gap: 10px;
+                
                 margin-bottom: 15px;
             }
 
@@ -378,15 +378,16 @@ foreach ($zipcodeRows as $zipRow) {
             /* Table with horizontal scroll */
             table {
                 width: 100%;
-                min-width: 1500px;
-                font-size: 40px;
+                min-width: 3480px;
+                font-size: 20px;
 
                 /* removed nested top-level media query (moved to top-level later) */
                 border-collapse: collapse;
             }
+            
 
             thead {
-                /* display: table-header-group; */
+                display: table-header-group;
             }
 
             tbody {
