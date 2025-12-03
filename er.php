@@ -298,7 +298,7 @@ foreach ($zipcodeRows as $zipRow) {
         }
         
         /* Responsive Design - Horizontal Scroll Table */
-        @media (max-width: 1000px) {
+        @media (max-width: 2000px) {
             body {
                 padding: 10px;
             }
